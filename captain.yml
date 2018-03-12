@@ -1,0 +1,9 @@
+mipmap_demo:
+  build: Dockerfile
+  image: hbpmip/mipmap-demo-ehr-to-i2b2
+  pre:
+    - echo "Building hbpmip/mipmap-demo-ehr-to-i2b2 image"
+  post:
+    - echo "Finished building hbpmip/mipmap-demo-ehr-to-i2b2 image"
+  test:
+    - ./tests/test.sh
