@@ -67,8 +67,8 @@ services:
       - "mipmap_db:mipmap_db"
       #- "i2b2_db:i2b2_db"
       - "i2b2_db_harmonized:i2b2_db_harmonized"
-    extra_hosts:
-      - "localhost:i2b2_db"    
+    external_links:
+      - "mesos-18aa6a87-2438-46a4-a650-8d17c8c5a3cc:i2b2_db"    
     environment:
       - TARGETS=mipmap_db:5432,i2b2_db:31433,i2b2_db_harmonized:5432
 
@@ -118,6 +118,6 @@ services:
       - "mipmap_db:mipmap_db"
     #  - "i2b2_db:i2b2_db"
       - "i2b2_db_harmonized:i2b2_db_harmonized"
-    extra_hosts:
-      - "localhost:i2b2_db" 
+    exnternal_links:
+      - "mesos-18aa6a87-2438-46a4-a650-8d17c8c5a3cc:i2b2_db" 
 
