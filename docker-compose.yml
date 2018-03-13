@@ -67,7 +67,7 @@ services:
       - "mipmap_db:mipmap_db"
       #- "i2b2_db:i2b2_db"
       - "i2b2_db_harmonized:i2b2_db_harmonized"
-    extra_host:
+    extra_hosts:
       - "i2b2_db:localhost"   
     environment:
       - TARGETS=mipmap_db:5432,i2b2_capture:31433,i2b2_db_harmonized:5432
@@ -118,6 +118,6 @@ services:
       - "mipmap_db:mipmap_db"
     #  - "i2b2_db:i2b2_db"
       - "i2b2_db_harmonized:i2b2_db_harmonized"
-    extra_host:
+    extra_hosts:
       - "i2b2_db:localhost" 
 
