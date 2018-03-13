@@ -118,6 +118,6 @@ services:
       - "mipmap_db:mipmap_db"
     #  - "i2b2_db:i2b2_db"
       - "i2b2_db_harmonized:i2b2_db_harmonized"
-    exnternal_links:
+    external_links:
       - "mesos-18aa6a87-2438-46a4-a650-8d17c8c5a3cc:i2b2_db" 
 
