@@ -70,7 +70,7 @@ services:
     extra_hosts:
       - "i2b2_db:localhost"   
     environment:
-      - TARGETS=mipmap_db:5432,i2b2_capture:31433,i2b2_db_harmonized:5432
+      - TARGETS=mipmap_db:5432,i2b2_db:31433,i2b2_db_harmonized:5432
 
 #  i2b2_setup:
 #    image: "hbpmip/i2b2-setup:1.5.2"
