@@ -116,6 +116,5 @@ services:
     links:
       - "mipmap_db:mipmap_db"
     #  - "i2b2_db:i2b2_db"
-      - "i2b2_capture:i2b2_capture"
       - "i2b2_db_harmonized:i2b2_db_harmonized"
 
