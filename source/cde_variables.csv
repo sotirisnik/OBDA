@@ -151,7 +151,7 @@
 "agegroup","/root/demographics/agegroup/","agegroup",,,
 "gender","/root/demographics/gender/","Gender",,,"Gender of the patient - Sex assigned at birth"
 "handedness","/root/demographics/handedness/","Handedness",,,"Describes the tendency of the patient to use either the right or the left hand more naturally than the other."
-"subjectage","/root/demographics/subjectage/","Subject Age","integer","months","Exact age of the subject  for datasets that allow such precision."
+"subjectage","/root/demographics/subjectage/","Subject Age","real",,"Exact age of the subject  for datasets that allow such precision."
 "subjectageyears","/root/demographics/subjectageyears/","Age Years","integer","years","Subject age in years."
 "apoe4","/root/genetic/polymorphism/apoe4/","ApoE4","integer",,"Apolipoprotein E (APOE) e4 allele: is the strongest risk factor for Late Onset Alzheimer Disease (LOAD). At least one copy of APOE-e4 "
 "rs10498633_t","/root/genetic/polymorphism/rs10498633_t/","rs10498633_T","integer",,
