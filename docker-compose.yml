@@ -67,6 +67,8 @@ services:
       - "mipmap_db:mipmap_db"
       #- "i2b2_db:i2b2_db"
       - "i2b2_db_harmonized:i2b2_db_harmonized"
+    extra_host:
+      - "i2b2_db:localhost"   
     environment:
       - TARGETS=mipmap_db:5432,i2b2_capture:31433,i2b2_db_harmonized:5432
 
@@ -103,10 +105,10 @@ services:
       - mipmap_db_user=mipmap
       - mipmap_db_password=mipmap
       - i2b2_db_host=i2b2_db
-      - i2b2_db_port=5432
-      - i2b2_db_name=i2b2
-      - i2b2_db_user=i2b2
-      - i2b2_db_password=i2b2
+      - i2b2_db_port=31433
+      - i2b2_db_name=i2b2_capture
+      - i2b2_db_user=i2b2_capture
+      - i2b2_db_password=1LFbnpvPPsAcruO
       - i2b2_db_harmonized_host=i2b2_db_harmonized
       - i2b2_db_harmonized_port=5432
       - i2b2_db_harmonized_name=i2b2
@@ -116,4 +118,6 @@ services:
       - "mipmap_db:mipmap_db"
     #  - "i2b2_db:i2b2_db"
       - "i2b2_db_harmonized:i2b2_db_harmonized"
+    extra_host:
+      - "i2b2_db:localhost" 
 
