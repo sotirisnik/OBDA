@@ -29,7 +29,6 @@ services:
 
   mipmap_db:
     image: "postgres:9.6.5"
-    network_mode: "bridge"
     container_name: "mipmap-postgres"
     restart: unless-stopped
     ports:
@@ -52,7 +51,6 @@ services:
 
   i2b2_db_harmonized:
     image: "postgres:9.6.5"
-    network_mode: "bridge"
     container_name: "i2b2-postgres-harmonized-niguarda"
     restart: unless-stopped
     ports:
@@ -68,7 +66,6 @@ services:
     network_mode: "bridge"
     links:
       - "mipmap_db:mipmap_db"
-      #- "i2b2_db:i2b2_db"
       - "i2b2_db_harmonized:i2b2_db_harmonized"
     external_links:
       - "mesos-18aa6a87-2438-46a4-a650-8d17c8c5a3cc:i2b2_db"    
@@ -86,7 +83,6 @@ services:
 
   i2b2_setup_harmonized:
     image: "hbpmip/i2b2-setup:1.5.2"
-    network_mode: "bridge"
     container_name: "i2b2-setup-harmonized"
     command: "upgrade head"
     links:
@@ -121,7 +117,6 @@ services:
       - i2b2_db_harmonized_password=i2b2
     links:
       - "mipmap_db:mipmap_db"
-    #  - "i2b2_db:i2b2_db"
       - "i2b2_db_harmonized:i2b2_db_harmonized"
     external_links:
       - "mesos-18aa6a87-2438-46a4-a650-8d17c8c5a3cc:i2b2_db" 
