@@ -30,6 +30,7 @@ services:
   mipmap_db:
     image: "postgres:9.6.5"
     container_name: "mipmap-postgres"
+    network_mode: "bridge"
     restart: unless-stopped
     ports:
       - 5432
@@ -50,6 +51,7 @@ services:
   i2b2_db_harmonized:
     image: "postgres:9.6.5"
     container_name: "i2b2-postgres-harmonized-niguarda"
+    network_mode: "bridge"
     restart: unless-stopped
     ports:
       - 5432
@@ -61,6 +63,7 @@ services:
 
   wait_dbs:
     image: "waisbrot/wait"
+    network_mode: "bridge"
     links:
       - "mipmap_db:mipmap_db"
       - "i2b2_db_harmonized:i2b2_db_harmonized"
@@ -91,6 +94,7 @@ services:
   mipmap_etl:
     image: "hbpmip/mipmap-demo-ehr-to-i2b2"
     container_name: "mipmap"
+    network_mode: "bridge"
     volumes:
       - "${mipmap_source-./source}:/opt/source:rw"
       - "${mipmap_pgproperties-./postgresdb.properties}:/opt/postgresdb.properties:ro"
