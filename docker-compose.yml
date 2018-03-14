@@ -84,6 +84,7 @@ services:
   i2b2_setup_harmonized:
     image: "hbpmip/i2b2-setup:1.5.2"
     container_name: "i2b2-setup-harmonized"
+    network_mode: "bridge"
     command: "upgrade head"
     links:
       - "i2b2_db_harmonized:i2b2_db_harmonized"
