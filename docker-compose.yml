@@ -29,6 +29,7 @@ services:
 
   mipmap_db:
     image: "postgres:9.6.5"
+    network_mode: "bridge"
     container_name: "mipmap-postgres"
     restart: unless-stopped
     ports:
@@ -51,6 +52,7 @@ services:
 
   i2b2_db_harmonized:
     image: "postgres:9.6.5"
+    network_mode: "bridge"
     container_name: "i2b2-postgres-harmonized-niguarda"
     restart: unless-stopped
     ports:
@@ -63,14 +65,15 @@ services:
 
   wait_dbs:
     image: "waisbrot/wait"
+    network_mode: "bridge"
     links:
       - "mipmap_db:mipmap_db"
       #- "i2b2_db:i2b2_db"
       - "i2b2_db_harmonized:i2b2_db_harmonized"
     external_links:
-      - "i2b2_db:mesos-18aa6a87-2438-46a4-a650-8d17c8c5a3cc"    
+      - "mesos-18aa6a87-2438-46a4-a650-8d17c8c5a3cc:i2b2_db"    
     environment:
-      - TARGETS=mipmap_db:5432,i2b2_db:31433,i2b2_db_harmonized:5432
+      - TARGETS=mipmap_db:5432,i2b2_db:5432,i2b2_db_harmonized:5432
 
 #  i2b2_setup:
 #    image: "hbpmip/i2b2-setup:1.5.2"
@@ -83,6 +86,7 @@ services:
 
   i2b2_setup_harmonized:
     image: "hbpmip/i2b2-setup:1.5.2"
+    network_mode: "bridge"
     container_name: "i2b2-setup-harmonized"
     command: "upgrade head"
     links:
@@ -93,6 +97,7 @@ services:
 
   mipmap_etl:
     image: "hbpmip/mipmap-demo-ehr-to-i2b2"
+    network_mode: "bridge"
     container_name: "mipmap"
     volumes:
       - "${mipmap_source-./source}:/opt/source:rw"
@@ -105,7 +110,7 @@ services:
       - mipmap_db_user=mipmap
       - mipmap_db_password=mipmap
       - i2b2_db_host=i2b2_db
-      - i2b2_db_port= 31433
+      - i2b2_db_port= 5432
       - i2b2_db_name=i2b2_capture
       - i2b2_db_user=i2b2_capture
       - i2b2_db_password=1LFbnpvPPsAcruO
@@ -119,4 +124,4 @@ services:
     #  - "i2b2_db:i2b2_db"
       - "i2b2_db_harmonized:i2b2_db_harmonized"
     external_links:
-      - "i2b2_db:mesos-18aa6a87-2438-46a4-a650-8d17c8c5a3cc" 
+      - "mesos-18aa6a87-2438-46a4-a650-8d17c8c5a3cc:i2b2_db" 
