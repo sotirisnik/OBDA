@@ -3,12 +3,9 @@
 mkdir -p output
 chmod 777 output
 
-echo 'setup and mipmap_db i2b2_db_harmonized'
-docker-compose up -d mipmap_db i2b2_db_harmonized #i2b2_db 
+sudo docker-compose up -d mipmap_db i2b2_db_harmonized
 
-echo 'setup wait_dbs'
-docker-compose up wait_dbs
-#docker-compose run --rm i2b2_setup
-echo 'remove i2b2_setup_harmonized'
-docker-compose run --rm i2b2_setup_harmonized
-docker-compose up mipmap_etl
+sudo docker-compose up wait_dbs
+#sudo docker-compose run --rm i2b2_setup
+sudo docker-compose run --rm i2b2_setup_harmonized
+sudo docker-compose up mipmap_etl
