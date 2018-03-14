@@ -29,8 +29,8 @@ services:
 
   mipmap_db:
     image: "postgres:9.6.5"
-    network_mode: "bridge"
     container_name: "mipmap-postgres"
+    network_mode: "bridge"
     restart: unless-stopped
     ports:
       - 5432
@@ -46,14 +46,12 @@ services:
 #      - 5432
 #    environment:
 #      - POSTGRES_USER=i2b2
-#      - POSTGRES_PASSWORD=i2b2 
-
-  
+#      - POSTGRES_PASSWORD=i2b2
 
   i2b2_db_harmonized:
     image: "postgres:9.6.5"
-    network_mode: "bridge"
     container_name: "i2b2-postgres-harmonized-niguarda"
+    network_mode: "bridge"
     restart: unless-stopped
     ports:
       - 5432
@@ -68,10 +66,9 @@ services:
     network_mode: "bridge"
     links:
       - "mipmap_db:mipmap_db"
-      #- "i2b2_db:i2b2_db"
       - "i2b2_db_harmonized:i2b2_db_harmonized"
     external_links:
-      - "mesos-18aa6a87-2438-46a4-a650-8d17c8c5a3cc:i2b2_db"    
+      - "mesos-18aa6a87-2438-46a4-a650-8d17c8c5a3cc:i2b2_db"
     environment:
       - TARGETS=mipmap_db:5432,i2b2_db:5432,i2b2_db_harmonized:5432
 
@@ -80,14 +77,14 @@ services:
 #    container_name: "i2b2-setup"
 #    command: "upgrade head"
 #    links:
-#      - "i2b2_db:i2b2_db"
+#     - "i2b2_db:i2b2_db"
 #    environment:
-#      - DB_URL=postgresql://i2b2:i2b2@i2b2_db:5432/i2b2 
+#      - DB_URL=postgresql://i2b2:i2b2@i2b2_db:5432/i2b2
 
   i2b2_setup_harmonized:
     image: "hbpmip/i2b2-setup:1.5.2"
-    network_mode: "bridge"
     container_name: "i2b2-setup-harmonized"
+    network_mode: "bridge"
     command: "upgrade head"
     links:
       - "i2b2_db_harmonized:i2b2_db_harmonized"
@@ -97,8 +94,8 @@ services:
 
   mipmap_etl:
     image: "hbpmip/mipmap-demo-ehr-to-i2b2"
-    network_mode: "bridge"
     container_name: "mipmap"
+    network_mode: "bridge"
     volumes:
       - "${mipmap_source-./source}:/opt/source:rw"
       - "${mipmap_pgproperties-./postgresdb.properties}:/opt/postgresdb.properties:ro"
@@ -110,7 +107,7 @@ services:
       - mipmap_db_user=mipmap
       - mipmap_db_password=mipmap
       - i2b2_db_host=i2b2_db
-      - i2b2_db_port= 5432
+      - i2b2_db_port=5432
       - i2b2_db_name=i2b2_capture
       - i2b2_db_user=i2b2_capture
       - i2b2_db_password=1LFbnpvPPsAcruO
@@ -121,7 +118,8 @@ services:
       - i2b2_db_harmonized_password=i2b2
     links:
       - "mipmap_db:mipmap_db"
-    #  - "i2b2_db:i2b2_db"
       - "i2b2_db_harmonized:i2b2_db_harmonized"
-    external_links:
-      - "mesos-18aa6a87-2438-46a4-a650-8d17c8c5a3cc:i2b2_db" 
+    external_links: 
+      - "mesos-18aa6a87-2438-46a4-a650-8d17c8c5a3cc:i2b2_db"
+
+

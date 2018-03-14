@@ -253,22 +253,23 @@
     </relational> -->
     <relational>
       <driver>org.postgresql.Driver</driver>
-      <uri>jdbc:postgresql://localhost:31433/i2b2_capture</uri>
-      <login>i2b2_capture</login>
-      <password>1LFbnpvPPsAcruO</password>
+      <uri>jdbc:postgresql://{{ .Env.i2b2_db_host }}:{{ default .Env.i2b2_db_port "5432" }}/{{ .Env.i2b2_db_name }}</uri>
+      <login>{{ default .Env.i2b2_db_user "postgres" }}</login>
+      <password>{{ default .Env.i2b2_db_password "postgres" }}</password>
+    </relational>
     </relational>
     <inclusions />
     <exclusions />
     <duplications>
-      <duplication>i2b2_capture.observation_fact</duplication>
-      <duplication>i2b2_capture.concept_dimension</duplication>
-      <duplication>i2b2_capture.observation_fact</duplication>
-      <duplication>i2b2_capture.concept_dimension</duplication>
-      <duplication>i2b2_capture.concept_dimension</duplication>
-      <duplication>i2b2_capture.observation_fact</duplication>
-      <duplication>i2b2_capture.concept_dimension</duplication>
-      <duplication>i2b2_capture.observation_fact</duplication>
-      <duplication>i2b2_capture.concept_dimension</duplication>
+      <duplication>{{ .Env.i2b2_db_name }}.observation_fact</duplication>
+      <duplication>{{ .Env.i2b2_db_name }}.concept_dimension</duplication>
+      <duplication>{{ .Env.i2b2_db_name }}.observation_fact</duplication>
+      <duplication>{{ .Env.i2b2_db_name }}.concept_dimension</duplication>
+      <duplication>{{ .Env.i2b2_db_name }}.concept_dimension</duplication>
+      <duplication>{{ .Env.i2b2_db_name }}.observation_fact</duplication>
+      <duplication>{{ .Env.i2b2_db_name }}.concept_dimension</duplication>
+      <duplication>{{ .Env.i2b2_db_name }}.observation_fact</duplication>
+      <duplication>{{ .Env.i2b2_db_name }}.concept_dimension</duplication>
     </duplications>
     <functionalDependencies />
     <selectionConditions />
@@ -278,7 +279,7 @@
     <correspondence>
       <source-paths />
       <source-value>datetime()</source-value>
-      <target-path>i2b2_capture.patient_dimension.patient_dimensionTuple.import_date</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.patient_dimension.patient_dimensionTuple.import_date</target-path>
       <transformation-function>datetime()</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -286,7 +287,7 @@
       <source-paths>
         <source-path>NIGUARDA.NiguardaPatientMapping.NiguardaPatientMappingTuple.patient_num</source-path>
       </source-paths>
-      <target-path>i2b2_capture.patient_dimension.patient_dimensionTuple.patient_num</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.patient_dimension.patient_dimensionTuple.patient_num</target-path>
       <transformation-function>NIGUARDA.NiguardaPatientMapping.NiguardaPatientMappingTuple.patient_num</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -294,7 +295,7 @@
       <source-paths>
         <source-path>NIGUARDA.Demographics.DemographicsTuple.SESSO</source-path>
       </source-paths>
-      <target-path>i2b2_capture.patient_dimension.patient_dimensionTuple.sex_cd</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.patient_dimension.patient_dimensionTuple.sex_cd</target-path>
       <transformation-function>NIGUARDA.Demographics.DemographicsTuple.SESSO</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -302,7 +303,7 @@
       <source-paths>
         <source-path>NIGUARDA.Demographics.DemographicsTuple.DATA_NASCITA</source-path>
       </source-paths>
-      <target-path>i2b2_capture.patient_dimension.patient_dimensionTuple.birth_date</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.patient_dimension.patient_dimensionTuple.birth_date</target-path>
       <transformation-function>todate(NIGUARDA.Demographics.DemographicsTuple.DATA_NASCITA, "dd/mm/yyyy")</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -310,7 +311,7 @@
       <source-paths>
         <source-path>NIGUARDA.unpivoted_Episode.unpivoted_EpisodeTuple.attribute</source-path>
       </source-paths>
-      <target-path>i2b2_capture.observation_fact.observation_factTuple.concept_cd</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.concept_cd</target-path>
       <transformation-function>NIGUARDA.unpivoted_Episode.unpivoted_EpisodeTuple.attribute</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -318,7 +319,7 @@
       <source-paths>
         <source-path>NIGUARDA.NiguardaEncounterMapping.NiguardaEncounterMappingTuple.encounter_num</source-path>
       </source-paths>
-      <target-path>i2b2_capture.observation_fact.observation_factTuple.encounter_num</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.encounter_num</target-path>
       <transformation-function>NIGUARDA.NiguardaEncounterMapping.NiguardaEncounterMappingTuple.encounter_num</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -326,14 +327,14 @@
       <source-paths>
         <source-path>NIGUARDA.NiguardaPatientMapping.NiguardaPatientMappingTuple.patient_num</source-path>
       </source-paths>
-      <target-path>i2b2_capture.observation_fact.observation_factTuple.patient_num</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.patient_num</target-path>
       <transformation-function>NIGUARDA.NiguardaPatientMapping.NiguardaPatientMappingTuple.patient_num</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>datetime()</source-value>
-      <target-path>i2b2_capture.observation_fact.observation_factTuple.import_date</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.import_date</target-path>
       <transformation-function>datetime()</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -341,7 +342,7 @@
       <source-paths>
         <source-path>NIGUARDA.unpivoted_Episode.unpivoted_EpisodeTuple.DATA_FINE</source-path>
       </source-paths>
-      <target-path>i2b2_capture.observation_fact.observation_factTuple.end_date</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.end_date</target-path>
       <transformation-function>todate(NIGUARDA.unpivoted_Episode.unpivoted_EpisodeTuple.DATA_FINE, "dd/mm/yyyy")</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -349,56 +350,56 @@
       <source-paths>
         <source-path>NIGUARDA.niguarda_variables.niguarda_variablesTuple.units</source-path>
       </source-paths>
-      <target-path>i2b2_capture.observation_fact.observation_factTuple.units_cd</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.units_cd</target-path>
       <transformation-function>NIGUARDA.niguarda_variables.niguarda_variablesTuple.units</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>"@"</source-value>
-      <target-path>i2b2_capture.observation_fact.observation_factTuple.modifier_cd</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.modifier_cd</target-path>
       <transformation-function>"@"</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>1</source-value>
-      <target-path>i2b2_capture.observation_fact.observation_factTuple.instance_num</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.instance_num</target-path>
       <transformation-function>1</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>"Niguarda"</source-value>
-      <target-path>i2b2_capture.observation_fact.observation_factTuple.location_cd</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.location_cd</target-path>
       <transformation-function>"Niguarda"</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>"Niguarda"</source-value>
-      <target-path>i2b2_capture.provider_dimension.provider_dimensionTuple.provider_id</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.provider_dimension.provider_dimensionTuple.provider_id</target-path>
       <transformation-function>"Niguarda"</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>"/Provider/Hospital/Niguarda/"</source-value>
-      <target-path>i2b2_capture.provider_dimension.provider_dimensionTuple.provider_path</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.provider_dimension.provider_dimensionTuple.provider_path</target-path>
       <transformation-function>"/Provider/Hospital/Niguarda/"</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>"Hospitala Niguarda"</source-value>
-      <target-path>i2b2_capture.provider_dimension.provider_dimensionTuple.name_char</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.provider_dimension.provider_dimensionTuple.name_char</target-path>
       <transformation-function>"Hospitala Niguarda"</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>datetime()</source-value>
-      <target-path>i2b2_capture.provider_dimension.provider_dimensionTuple.import_date</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.provider_dimension.provider_dimensionTuple.import_date</target-path>
       <transformation-function>datetime()</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -406,7 +407,7 @@
       <source-paths>
         <source-path>NIGUARDA.niguarda_variables.niguarda_variablesTuple.initial_name</source-path>
       </source-paths>
-      <target-path>i2b2_capture.concept_dimension.concept_dimensionTuple.concept_cd</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.concept_dimension.concept_dimensionTuple.concept_cd</target-path>
       <transformation-function>NIGUARDA.niguarda_variables.niguarda_variablesTuple.initial_name</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -414,7 +415,7 @@
       <source-paths>
         <source-path>NIGUARDA.niguarda_variables.niguarda_variablesTuple.concept_path</source-path>
       </source-paths>
-      <target-path>i2b2_capture.concept_dimension.concept_dimensionTuple.concept_path</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.concept_dimension.concept_dimensionTuple.concept_path</target-path>
       <transformation-function>NIGUARDA.niguarda_variables.niguarda_variablesTuple.concept_path</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -422,7 +423,7 @@
       <source-paths>
         <source-path>NIGUARDA.niguarda_variables.niguarda_variablesTuple.initial_name</source-path>
       </source-paths>
-      <target-path>i2b2_capture.concept_dimension.concept_dimensionTuple.name_char</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.concept_dimension.concept_dimensionTuple.name_char</target-path>
       <transformation-function>NIGUARDA.niguarda_variables.niguarda_variablesTuple.initial_name</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -430,14 +431,14 @@
       <source-paths>
         <source-path>NIGUARDA.niguarda_variables.niguarda_variablesTuple.desc</source-path>
       </source-paths>
-      <target-path>i2b2_capture.concept_dimension.concept_dimensionTuple.concept_blob</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.concept_dimension.concept_dimensionTuple.concept_blob</target-path>
       <transformation-function>NIGUARDA.niguarda_variables.niguarda_variablesTuple.desc</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>datetime()</source-value>
-      <target-path>i2b2_capture.concept_dimension.concept_dimensionTuple.import_date</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.concept_dimension.concept_dimensionTuple.import_date</target-path>
       <transformation-function>datetime()</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -445,7 +446,7 @@
       <source-paths>
         <source-path>NIGUARDA.NiguardaEncounterMapping.NiguardaEncounterMappingTuple.encounter_num</source-path>
       </source-paths>
-      <target-path>i2b2_capture.visit_dimension.visit_dimensionTuple.encounter_num</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.visit_dimension.visit_dimensionTuple.encounter_num</target-path>
       <transformation-function>NIGUARDA.NiguardaEncounterMapping.NiguardaEncounterMappingTuple.encounter_num</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -453,7 +454,7 @@
       <source-paths>
         <source-path>NIGUARDA.NiguardaPatientMapping.NiguardaPatientMappingTuple.patient_num</source-path>
       </source-paths>
-      <target-path>i2b2_capture.visit_dimension.visit_dimensionTuple.patient_num</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.visit_dimension.visit_dimensionTuple.patient_num</target-path>
       <transformation-function>NIGUARDA.NiguardaPatientMapping.NiguardaPatientMappingTuple.patient_num</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -461,7 +462,7 @@
       <source-paths>
         <source-path>NIGUARDA.unpivoted_Episode.unpivoted_EpisodeTuple.DATA_INIZIO</source-path>
       </source-paths>
-      <target-path>i2b2_capture.visit_dimension.visit_dimensionTuple.start_date</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.visit_dimension.visit_dimensionTuple.start_date</target-path>
       <transformation-function>todate(NIGUARDA.unpivoted_Episode.unpivoted_EpisodeTuple.DATA_INIZIO, "dd/mm/yyyy")</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -469,21 +470,21 @@
       <source-paths>
         <source-path>NIGUARDA.unpivoted_Episode.unpivoted_EpisodeTuple.DATA_FINE</source-path>
       </source-paths>
-      <target-path>i2b2_capture.visit_dimension.visit_dimensionTuple.end_date</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.visit_dimension.visit_dimensionTuple.end_date</target-path>
       <transformation-function>todate(NIGUARDA.unpivoted_Episode.unpivoted_EpisodeTuple.DATA_FINE, "dd/mm/yyyy")</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>"Niguarda"</source-value>
-      <target-path>i2b2_capture.visit_dimension.visit_dimensionTuple.location_cd</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.visit_dimension.visit_dimensionTuple.location_cd</target-path>
       <transformation-function>"Niguarda"</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>datetime()</source-value>
-      <target-path>i2b2_capture.visit_dimension.visit_dimensionTuple.import_date</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.visit_dimension.visit_dimensionTuple.import_date</target-path>
       <transformation-function>datetime()</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -491,35 +492,35 @@
       <source-paths>
         <source-path>NIGUARDA.unpivoted_Medical_report.unpivoted_Medical_reportTuple.attribute</source-path>
       </source-paths>
-      <target-path>i2b2_capture.observation_fact_1_.observation_factTuple.concept_cd</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.concept_cd</target-path>
       <transformation-function>NIGUARDA.unpivoted_Medical_report.unpivoted_Medical_reportTuple.attribute</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>"Niguarda"</source-value>
-      <target-path>i2b2_capture.observation_fact_1_.observation_factTuple.provider_id</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.provider_id</target-path>
       <transformation-function>"Niguarda"</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>"Niguarda"</source-value>
-      <target-path>i2b2_capture.observation_fact.observation_factTuple.provider_id</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.provider_id</target-path>
       <transformation-function>"Niguarda"</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>"@"</source-value>
-      <target-path>i2b2_capture.observation_fact_1_.observation_factTuple.modifier_cd</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.modifier_cd</target-path>
       <transformation-function>"@"</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>1</source-value>
-      <target-path>i2b2_capture.observation_fact_1_.observation_factTuple.instance_num</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.instance_num</target-path>
       <transformation-function>1</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -527,7 +528,7 @@
       <source-paths>
         <source-path>NIGUARDA.NiguardaEncounterMapping_1_.NiguardaEncounterMappingTuple.encounter_num</source-path>
       </source-paths>
-      <target-path>i2b2_capture.observation_fact_1_.observation_factTuple.encounter_num</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.encounter_num</target-path>
       <transformation-function>NIGUARDA.NiguardaEncounterMapping_1_.NiguardaEncounterMappingTuple.encounter_num</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -535,14 +536,14 @@
       <source-paths>
         <source-path>NIGUARDA.NiguardaPatientMapping_1_.NiguardaPatientMappingTuple.patient_num</source-path>
       </source-paths>
-      <target-path>i2b2_capture.observation_fact_1_.observation_factTuple.patient_num</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.patient_num</target-path>
       <transformation-function>NIGUARDA.NiguardaPatientMapping_1_.NiguardaPatientMappingTuple.patient_num</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>datetime()</source-value>
-      <target-path>i2b2_capture.observation_fact_1_.observation_factTuple.import_date</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.import_date</target-path>
       <transformation-function>datetime()</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -563,23 +564,23 @@
         </relational> -->
       <relational>
           <driver>org.postgresql.Driver</driver>
-          <uri>jdbc:postgresql://localhost:31433/i2b2_capture</uri>
+          <uri>jdbc:postgresql://{{ .Env.i2b2_db_host }}:{{ default .Env.i2b2_db_port "5432" }}/{{ .Env.i2b2_db_name }}</uri>
           <schema>public</schema>
-          <login>i2b2_capture</login>
-          <password>1LFbnpvPPsAcruO</password>
+          <login>{{ default .Env.i2b2_db_user "postgres" }}</login>
+          <password>{{ default .Env.i2b2_db_password "postgres" }}</password>
           <table>observation_fact</table>
           <column>text_search_index</column>
           <function>max</function>
       </relational>
       </source-value>
-      <target-path>i2b2_capture.observation_fact_1_.observation_factTuple.text_search_index</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.text_search_index</target-path>
       <transformation-function>newId()</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>"Niguarda"</source-value>
-      <target-path>i2b2_capture.observation_fact_1_.observation_factTuple.location_cd</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.location_cd</target-path>
       <transformation-function>"Niguarda"</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -587,7 +588,7 @@
       <source-paths>
         <source-path>NIGUARDA.niguarda_variables_1_.niguarda_variablesTuple.units</source-path>
       </source-paths>
-      <target-path>i2b2_capture.observation_fact_1_.observation_factTuple.units_cd</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.units_cd</target-path>
       <transformation-function>NIGUARDA.niguarda_variables_1_.niguarda_variablesTuple.units</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -595,7 +596,7 @@
       <source-paths>
         <source-path>NIGUARDA.niguarda_variables_1_.niguarda_variablesTuple.initial_name</source-path>
       </source-paths>
-      <target-path>i2b2_capture.concept_dimension_1_.concept_dimensionTuple.concept_cd</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.concept_dimension_1_.concept_dimensionTuple.concept_cd</target-path>
       <transformation-function>NIGUARDA.niguarda_variables_1_.niguarda_variablesTuple.initial_name</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -603,7 +604,7 @@
       <source-paths>
         <source-path>NIGUARDA.niguarda_variables_1_.niguarda_variablesTuple.concept_path</source-path>
       </source-paths>
-      <target-path>i2b2_capture.concept_dimension_1_.concept_dimensionTuple.concept_path</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.concept_dimension_1_.concept_dimensionTuple.concept_path</target-path>
       <transformation-function>NIGUARDA.niguarda_variables_1_.niguarda_variablesTuple.concept_path</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -611,7 +612,7 @@
       <source-paths>
         <source-path>NIGUARDA.niguarda_variables_1_.niguarda_variablesTuple.initial_name</source-path>
       </source-paths>
-      <target-path>i2b2_capture.concept_dimension_1_.concept_dimensionTuple.name_char</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.concept_dimension_1_.concept_dimensionTuple.name_char</target-path>
       <transformation-function>NIGUARDA.niguarda_variables_1_.niguarda_variablesTuple.initial_name</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -619,14 +620,14 @@
       <source-paths>
         <source-path>NIGUARDA.niguarda_variables_1_.niguarda_variablesTuple.desc</source-path>
       </source-paths>
-      <target-path>i2b2_capture.concept_dimension_1_.concept_dimensionTuple.concept_blob</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.concept_dimension_1_.concept_dimensionTuple.concept_blob</target-path>
       <transformation-function>NIGUARDA.niguarda_variables_1_.niguarda_variablesTuple.desc</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>datetime()</source-value>
-      <target-path>i2b2_capture.concept_dimension_1_.concept_dimensionTuple.import_date</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.concept_dimension_1_.concept_dimensionTuple.import_date</target-path>
       <transformation-function>datetime()</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -634,7 +635,7 @@
       <source-paths>
         <source-path>NIGUARDA.unpivoted_Episode_1_.unpivoted_EpisodeTuple.DATA_INIZIO</source-path>
       </source-paths>
-      <target-path>i2b2_capture.observation_fact_1_.observation_factTuple.start_date</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.start_date</target-path>
       <transformation-function>todate(NIGUARDA.unpivoted_Episode_1_.unpivoted_EpisodeTuple.DATA_INIZIO, "dd/mm/yyyy")</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -642,7 +643,7 @@
       <source-paths>
         <source-path>NIGUARDA.unpivoted_Episode_1_.unpivoted_EpisodeTuple.DATA_FINE</source-path>
       </source-paths>
-      <target-path>i2b2_capture.observation_fact_1_.observation_factTuple.end_date</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.end_date</target-path>
       <transformation-function>todate(NIGUARDA.unpivoted_Episode_1_.unpivoted_EpisodeTuple.DATA_FINE, "dd/mm/yyyy")</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -650,7 +651,7 @@
       <source-paths>
         <source-path>NIGUARDA.niguarda_variables_1_.niguarda_variablesTuple.type</source-path>
       </source-paths>
-      <target-path>i2b2_capture.observation_fact_1_.observation_factTuple.valtype_cd</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.valtype_cd</target-path>
       <transformation-function>if((NIGUARDA.niguarda_variables_1_.niguarda_variablesTuple.type == "numeric"), "N", "T")</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -658,7 +659,7 @@
       <source-paths>
         <source-path>NIGUARDA.NiguardaEncounterMapping_2_.NiguardaEncounterMappingTuple.encounter_ide</source-path>
       </source-paths>
-      <target-path>i2b2_capture.encounter_mapping.encounter_mappingTuple.encounter_ide</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.encounter_mapping.encounter_mappingTuple.encounter_ide</target-path>
       <transformation-function>NIGUARDA.NiguardaEncounterMapping_2_.NiguardaEncounterMappingTuple.encounter_ide</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -666,7 +667,7 @@
       <source-paths>
         <source-path>NIGUARDA.NiguardaEncounterMapping_2_.NiguardaEncounterMappingTuple.encounter_ide_source</source-path>
       </source-paths>
-      <target-path>i2b2_capture.encounter_mapping.encounter_mappingTuple.encounter_ide_source</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.encounter_mapping.encounter_mappingTuple.encounter_ide_source</target-path>
       <transformation-function>NIGUARDA.NiguardaEncounterMapping_2_.NiguardaEncounterMappingTuple.encounter_ide_source</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -674,7 +675,7 @@
       <source-paths>
         <source-path>NIGUARDA.NiguardaEncounterMapping_2_.NiguardaEncounterMappingTuple.project_id</source-path>
       </source-paths>
-      <target-path>i2b2_capture.encounter_mapping.encounter_mappingTuple.project_id</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.encounter_mapping.encounter_mappingTuple.project_id</target-path>
       <transformation-function>NIGUARDA.NiguardaEncounterMapping_2_.NiguardaEncounterMappingTuple.project_id</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -682,7 +683,7 @@
       <source-paths>
         <source-path>NIGUARDA.NiguardaEncounterMapping_2_.NiguardaEncounterMappingTuple.patient_ide</source-path>
       </source-paths>
-      <target-path>i2b2_capture.encounter_mapping.encounter_mappingTuple.patient_ide</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.encounter_mapping.encounter_mappingTuple.patient_ide</target-path>
       <transformation-function>NIGUARDA.NiguardaEncounterMapping_2_.NiguardaEncounterMappingTuple.patient_ide</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -690,7 +691,7 @@
       <source-paths>
         <source-path>NIGUARDA.NiguardaEncounterMapping_2_.NiguardaEncounterMappingTuple.encounter_num</source-path>
       </source-paths>
-      <target-path>i2b2_capture.encounter_mapping.encounter_mappingTuple.encounter_num</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.encounter_mapping.encounter_mappingTuple.encounter_num</target-path>
       <transformation-function>NIGUARDA.NiguardaEncounterMapping_2_.NiguardaEncounterMappingTuple.encounter_num</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -698,14 +699,14 @@
       <source-paths>
         <source-path>NIGUARDA.NiguardaEncounterMapping_2_.NiguardaEncounterMappingTuple.patient_ide_source</source-path>
       </source-paths>
-      <target-path>i2b2_capture.encounter_mapping.encounter_mappingTuple.patient_ide_source</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.encounter_mapping.encounter_mappingTuple.patient_ide_source</target-path>
       <transformation-function>NIGUARDA.NiguardaEncounterMapping_2_.NiguardaEncounterMappingTuple.patient_ide_source</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>datetime()</source-value>
-      <target-path>i2b2_capture.encounter_mapping.encounter_mappingTuple.import_date</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.encounter_mapping.encounter_mappingTuple.import_date</target-path>
       <transformation-function>datetime()</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -713,7 +714,7 @@
       <source-paths>
         <source-path>NIGUARDA.NiguardaPatientMapping_2_.NiguardaPatientMappingTuple.patient_ide</source-path>
       </source-paths>
-      <target-path>i2b2_capture.patient_mapping.patient_mappingTuple.patient_ide</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.patient_mapping.patient_mappingTuple.patient_ide</target-path>
       <transformation-function>NIGUARDA.NiguardaPatientMapping_2_.NiguardaPatientMappingTuple.patient_ide</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -721,7 +722,7 @@
       <source-paths>
         <source-path>NIGUARDA.NiguardaPatientMapping_2_.NiguardaPatientMappingTuple.patient_ide_source</source-path>
       </source-paths>
-      <target-path>i2b2_capture.patient_mapping.patient_mappingTuple.patient_ide_source</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.patient_mapping.patient_mappingTuple.patient_ide_source</target-path>
       <transformation-function>NIGUARDA.NiguardaPatientMapping_2_.NiguardaPatientMappingTuple.patient_ide_source</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -729,7 +730,7 @@
       <source-paths>
         <source-path>NIGUARDA.NiguardaPatientMapping_2_.NiguardaPatientMappingTuple.patient_num</source-path>
       </source-paths>
-      <target-path>i2b2_capture.patient_mapping.patient_mappingTuple.patient_num</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.patient_mapping.patient_mappingTuple.patient_num</target-path>
       <transformation-function>NIGUARDA.NiguardaPatientMapping_2_.NiguardaPatientMappingTuple.patient_num</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -737,14 +738,14 @@
       <source-paths>
         <source-path>NIGUARDA.NiguardaPatientMapping_2_.NiguardaPatientMappingTuple.project_id</source-path>
       </source-paths>
-      <target-path>i2b2_capture.patient_mapping.patient_mappingTuple.project_id</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.patient_mapping.patient_mappingTuple.project_id</target-path>
       <transformation-function>NIGUARDA.NiguardaPatientMapping_2_.NiguardaPatientMappingTuple.project_id</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>datetime()</source-value>
-      <target-path>i2b2_capture.patient_mapping.patient_mappingTuple.import_date</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.patient_mapping.patient_mappingTuple.import_date</target-path>
       <transformation-function>datetime()</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -752,7 +753,7 @@
       <source-paths>
         <source-path>NIGUARDA.unpivoted_Medical_report.unpivoted_Medical_reportTuple.CODICE_PRESTAZIONE_ICD9</source-path>
       </source-paths>
-      <target-path>i2b2_capture.observation_fact_2_.observation_factTuple.concept_cd</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.concept_cd</target-path>
       <transformation-function>NIGUARDA.unpivoted_Medical_report.unpivoted_Medical_reportTuple.CODICE_PRESTAZIONE_ICD9</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -760,7 +761,7 @@
       <source-paths>
         <source-path>NIGUARDA.NiguardaEncounterMapping_1_.NiguardaEncounterMappingTuple.encounter_num</source-path>
       </source-paths>
-      <target-path>i2b2_capture.observation_fact_2_.observation_factTuple.encounter_num</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.encounter_num</target-path>
       <transformation-function>NIGUARDA.NiguardaEncounterMapping_1_.NiguardaEncounterMappingTuple.encounter_num</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -768,14 +769,14 @@
       <source-paths>
         <source-path>NIGUARDA.NiguardaPatientMapping_1_.NiguardaPatientMappingTuple.patient_num</source-path>
       </source-paths>
-      <target-path>i2b2_capture.observation_fact_2_.observation_factTuple.patient_num</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.patient_num</target-path>
       <transformation-function>NIGUARDA.NiguardaPatientMapping_1_.NiguardaPatientMappingTuple.patient_num</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>"Niguarda"</source-value>
-      <target-path>i2b2_capture.observation_fact_2_.observation_factTuple.provider_id</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.provider_id</target-path>
       <transformation-function>"Niguarda"</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -783,49 +784,49 @@
       <source-paths>
         <source-path>NIGUARDA.unpivoted_Episode_1_.unpivoted_EpisodeTuple.DATA_INIZIO</source-path>
       </source-paths>
-      <target-path>i2b2_capture.observation_fact_2_.observation_factTuple.start_date</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.start_date</target-path>
       <transformation-function>todate(NIGUARDA.unpivoted_Episode_1_.unpivoted_EpisodeTuple.DATA_INIZIO, "dd/mm/yyyy")</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>"@"</source-value>
-      <target-path>i2b2_capture.observation_fact_2_.observation_factTuple.modifier_cd</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.modifier_cd</target-path>
       <transformation-function>"@"</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>1</source-value>
-      <target-path>i2b2_capture.observation_fact_2_.observation_factTuple.instance_num</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.instance_num</target-path>
       <transformation-function>1</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>"T"</source-value>
-      <target-path>i2b2_capture.observation_fact_2_.observation_factTuple.valtype_cd</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.valtype_cd</target-path>
       <transformation-function>"T"</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>"1"</source-value>
-      <target-path>i2b2_capture.observation_fact_2_.observation_factTuple.tval_char</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.tval_char</target-path>
       <transformation-function>"1"</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>datetime()</source-value>
-      <target-path>i2b2_capture.observation_fact_2_.observation_factTuple.import_date</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.import_date</target-path>
       <transformation-function>datetime()</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>"Niguarda"</source-value>
-      <target-path>i2b2_capture.observation_fact_2_.observation_factTuple.location_cd</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.location_cd</target-path>
       <transformation-function>"Niguarda"</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -836,16 +837,16 @@
         <sequence>seq1</sequence>
         <relational>
           <driver>org.postgresql.Driver</driver>
-          <uri>jdbc:postgresql://localhost:31433/i2b2_capture</uri>
+          <uri>jdbc:postgresql://{{ .Env.i2b2_db_host }}:{{ default .Env.i2b2_db_port "5432" }}/{{ .Env.i2b2_db_name }}</uri>
           <schema>public</schema>
-          <login>i2b2_capture</login>
-          <password>1LFbnpvPPsAcruO</password>
+          <login>{{ default .Env.i2b2_db_user "postgres" }}</login>
+          <password>{{ default .Env.i2b2_db_password "postgres" }}</password>
           <table>observation_fact</table>
           <column>text_search_index</column>
           <function>max</function>
       </relational>
       </source-value>
-      <target-path>i2b2_capture.observation_fact_2_.observation_factTuple.text_search_index</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.text_search_index</target-path>
       <transformation-function>newId()</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -853,7 +854,7 @@
       <source-paths>
         <source-path>NIGUARDA.unpivoted_Medical_report.unpivoted_Medical_reportTuple.CODICE_PRESTAZIONE_ICD9</source-path>
       </source-paths>
-      <target-path>i2b2_capture.concept_dimension_2_.concept_dimensionTuple.concept_cd</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.concept_dimension_2_.concept_dimensionTuple.concept_cd</target-path>
       <transformation-function>NIGUARDA.unpivoted_Medical_report.unpivoted_Medical_reportTuple.CODICE_PRESTAZIONE_ICD9</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -861,14 +862,14 @@
       <source-paths>
         <source-path>NIGUARDA.unpivoted_Medical_report.unpivoted_Medical_reportTuple.CODICE_PRESTAZIONE_ICD9</source-path>
       </source-paths>
-      <target-path>i2b2_capture.concept_dimension_2_.concept_dimensionTuple.name_char</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.concept_dimension_2_.concept_dimensionTuple.name_char</target-path>
       <transformation-function>NIGUARDA.unpivoted_Medical_report.unpivoted_Medical_reportTuple.CODICE_PRESTAZIONE_ICD9</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>datetime()</source-value>
-      <target-path>i2b2_capture.concept_dimension_2_.concept_dimensionTuple.import_date</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.concept_dimension_2_.concept_dimensionTuple.import_date</target-path>
       <transformation-function>datetime()</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -876,7 +877,7 @@
       <source-paths>
         <source-path>NIGUARDA.unpivoted_Episode_1_.unpivoted_EpisodeTuple.DATA_FINE</source-path>
       </source-paths>
-      <target-path>i2b2_capture.observation_fact_2_.observation_factTuple.end_date</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.end_date</target-path>
       <transformation-function>todate(NIGUARDA.unpivoted_Episode_1_.unpivoted_EpisodeTuple.DATA_FINE, "dd/mm/yyyy")</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -884,7 +885,7 @@
       <source-paths>
         <source-path>NIGUARDA.niguarda_variables_2_.niguarda_variablesTuple.initial_name</source-path>
       </source-paths>
-      <target-path>i2b2_capture.concept_dimension_3_.concept_dimensionTuple.concept_cd</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.concept_dimension_3_.concept_dimensionTuple.concept_cd</target-path>
       <transformation-function>NIGUARDA.niguarda_variables_2_.niguarda_variablesTuple.initial_name</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -892,7 +893,7 @@
       <source-paths>
         <source-path>NIGUARDA.niguarda_variables_2_.niguarda_variablesTuple.initial_name</source-path>
       </source-paths>
-      <target-path>i2b2_capture.concept_dimension_3_.concept_dimensionTuple.name_char</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.concept_dimension_3_.concept_dimensionTuple.name_char</target-path>
       <transformation-function>NIGUARDA.niguarda_variables_2_.niguarda_variablesTuple.initial_name</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -900,14 +901,14 @@
       <source-paths>
         <source-path>NIGUARDA.niguarda_variables_2_.niguarda_variablesTuple.desc</source-path>
       </source-paths>
-      <target-path>i2b2_capture.concept_dimension_3_.concept_dimensionTuple.concept_blob</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.concept_dimension_3_.concept_dimensionTuple.concept_blob</target-path>
       <transformation-function>NIGUARDA.niguarda_variables_2_.niguarda_variablesTuple.desc</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>datetime()</source-value>
-      <target-path>i2b2_capture.concept_dimension_3_.concept_dimensionTuple.import_date</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.concept_dimension_3_.concept_dimensionTuple.import_date</target-path>
       <transformation-function>datetime()</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -915,7 +916,7 @@
       <source-paths>
         <source-path>NIGUARDA.NiguardaEncounterMapping_3_.NiguardaEncounterMappingTuple.encounter_num</source-path>
       </source-paths>
-      <target-path>i2b2_capture.observation_fact_3_.observation_factTuple.encounter_num</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_3_.observation_factTuple.encounter_num</target-path>
       <transformation-function>NIGUARDA.NiguardaEncounterMapping_3_.NiguardaEncounterMappingTuple.encounter_num</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -923,49 +924,49 @@
       <source-paths>
         <source-path>NIGUARDA.NiguardaPatientMapping_3_.NiguardaPatientMappingTuple.patient_num</source-path>
       </source-paths>
-      <target-path>i2b2_capture.observation_fact_3_.observation_factTuple.patient_num</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_3_.observation_factTuple.patient_num</target-path>
       <transformation-function>NIGUARDA.NiguardaPatientMapping_3_.NiguardaPatientMappingTuple.patient_num</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>"Niguarda"</source-value>
-      <target-path>i2b2_capture.observation_fact_3_.observation_factTuple.provider_id</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_3_.observation_factTuple.provider_id</target-path>
       <transformation-function>"Niguarda"</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>"@"</source-value>
-      <target-path>i2b2_capture.observation_fact_3_.observation_factTuple.modifier_cd</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_3_.observation_factTuple.modifier_cd</target-path>
       <transformation-function>"@"</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>1</source-value>
-      <target-path>i2b2_capture.observation_fact_3_.observation_factTuple.instance_num</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_3_.observation_factTuple.instance_num</target-path>
       <transformation-function>1</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>"T"</source-value>
-      <target-path>i2b2_capture.observation_fact_3_.observation_factTuple.valtype_cd</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_3_.observation_factTuple.valtype_cd</target-path>
       <transformation-function>"T"</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>"Niguarda"</source-value>
-      <target-path>i2b2_capture.observation_fact_3_.observation_factTuple.location_cd</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_3_.observation_factTuple.location_cd</target-path>
       <transformation-function>"Niguarda"</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>datetime()</source-value>
-      <target-path>i2b2_capture.observation_fact_3_.observation_factTuple.import_date</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_3_.observation_factTuple.import_date</target-path>
       <transformation-function>datetime()</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -976,16 +977,16 @@
         <sequence>seq1</sequence>
         <relational>
           <driver>org.postgresql.Driver</driver>
-          <uri>jdbc:postgresql://localhost:31433/i2b2_capture</uri>
+          <uri>jdbc:postgresql://{{ .Env.i2b2_db_host }}:{{ default .Env.i2b2_db_port "5432" }}/{{ .Env.i2b2_db_name }}</uri>
           <schema>public</schema>
-          <login>i2b2_capture</login>
-          <password>1LFbnpvPPsAcruO</password>
+          <login>{{ default .Env.i2b2_db_user "postgres" }}</login>
+          <password>{{ default .Env.i2b2_db_password "postgres" }}</password>
           <table>observation_fact</table>
           <column>text_search_index</column>
           <function>max</function>
       </relational>
       </source-value>
-      <target-path>i2b2_capture.observation_fact_3_.observation_factTuple.text_search_index</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_3_.observation_factTuple.text_search_index</target-path>
       <transformation-function>newId()</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -993,7 +994,7 @@
       <source-paths>
         <source-path>NIGUARDA.niguarda_variables_2_.niguarda_variablesTuple.concept_path</source-path>
       </source-paths>
-      <target-path>i2b2_capture.concept_dimension_3_.concept_dimensionTuple.concept_path</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.concept_dimension_3_.concept_dimensionTuple.concept_path</target-path>
       <transformation-function>NIGUARDA.niguarda_variables_2_.niguarda_variablesTuple.concept_path</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -1001,49 +1002,49 @@
       <source-paths>
         <source-path>NIGUARDA.unpivoted_Imaging_1_.unpivoted_ImagingTuple.attribute</source-path>
       </source-paths>
-      <target-path>i2b2_capture.observation_fact_3_.observation_factTuple.concept_cd</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_3_.observation_factTuple.concept_cd</target-path>
       <transformation-function>NIGUARDA.unpivoted_Imaging_1_.unpivoted_ImagingTuple.attribute</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>"/niguarda/EHR/Imaging/imaging_ICD9/"</source-value>
-      <target-path>i2b2_capture.concept_dimension_4_.concept_dimensionTuple.concept_path</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.concept_dimension_4_.concept_dimensionTuple.concept_path</target-path>
       <transformation-function>"/niguarda/EHR/Imaging/imaging_ICD9/"</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>"imaging_ICD9"</source-value>
-      <target-path>i2b2_capture.concept_dimension_4_.concept_dimensionTuple.concept_cd</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.concept_dimension_4_.concept_dimensionTuple.concept_cd</target-path>
       <transformation-function>"imaging_ICD9"</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>"imaging_ICD9"</source-value>
-      <target-path>i2b2_capture.observation_fact_4_.observation_factTuple.concept_cd</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_4_.observation_factTuple.concept_cd</target-path>
       <transformation-function>"imaging_ICD9"</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>"imaging_ICD9"</source-value>
-      <target-path>i2b2_capture.concept_dimension_4_.concept_dimensionTuple.name_char</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.concept_dimension_4_.concept_dimensionTuple.name_char</target-path>
       <transformation-function>"imaging_ICD9"</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>"The ICD9 treatment code for MRI"</source-value>
-      <target-path>i2b2_capture.concept_dimension_4_.concept_dimensionTuple.concept_blob</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.concept_dimension_4_.concept_dimensionTuple.concept_blob</target-path>
       <transformation-function>"The ICD9 treatment code for MRI"</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>datetime()</source-value>
-      <target-path>i2b2_capture.concept_dimension_4_.concept_dimensionTuple.import_date</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.concept_dimension_4_.concept_dimensionTuple.import_date</target-path>
       <transformation-function>datetime()</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -1051,7 +1052,7 @@
       <source-paths>
         <source-path>NIGUARDA.NiguardaPatientMapping_3_.NiguardaPatientMappingTuple.patient_num</source-path>
       </source-paths>
-      <target-path>i2b2_capture.observation_fact_4_.observation_factTuple.patient_num</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_4_.observation_factTuple.patient_num</target-path>
       <transformation-function>NIGUARDA.NiguardaPatientMapping_3_.NiguardaPatientMappingTuple.patient_num</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -1059,28 +1060,28 @@
       <source-paths>
         <source-path>NIGUARDA.NiguardaEncounterMapping_3_.NiguardaEncounterMappingTuple.encounter_num</source-path>
       </source-paths>
-      <target-path>i2b2_capture.observation_fact_4_.observation_factTuple.encounter_num</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_4_.observation_factTuple.encounter_num</target-path>
       <transformation-function>NIGUARDA.NiguardaEncounterMapping_3_.NiguardaEncounterMappingTuple.encounter_num</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>"Niguarda"</source-value>
-      <target-path>i2b2_capture.observation_fact_4_.observation_factTuple.provider_id</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_4_.observation_factTuple.provider_id</target-path>
       <transformation-function>"Niguarda"</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>"@"</source-value>
-      <target-path>i2b2_capture.observation_fact_4_.observation_factTuple.modifier_cd</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_4_.observation_factTuple.modifier_cd</target-path>
       <transformation-function>"@"</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>1</source-value>
-      <target-path>i2b2_capture.observation_fact_4_.observation_factTuple.instance_num</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_4_.observation_factTuple.instance_num</target-path>
       <transformation-function>1</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -1091,37 +1092,37 @@
         <sequence>seq1</sequence>
         <relational>
           <driver>org.postgresql.Driver</driver>
-          <uri>jdbc:postgresql://localhost:31433/i2b2_capture</uri>
+          <uri>jdbc:postgresql://{{ .Env.i2b2_db_host }}:{{ default .Env.i2b2_db_port "5432" }}/{{ .Env.i2b2_db_name }}</uri>
           <schema>public</schema>
-          <login>i2b2_capture</login>
-          <password>1LFbnpvPPsAcruO</password>
+          <login>{{ default .Env.i2b2_db_user "postgres" }}</login>
+          <password>{{ default .Env.i2b2_db_password "postgres" }}</password>
           <table>observation_fact</table>
           <column>text_search_index</column>
           <function>max</function>
       </relational>
       </source-value>
-      <target-path>i2b2_capture.observation_fact_4_.observation_factTuple.text_search_index</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_4_.observation_factTuple.text_search_index</target-path>
       <transformation-function>newId()</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>datetime()</source-value>
-      <target-path>i2b2_capture.observation_fact_4_.observation_factTuple.import_date</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_4_.observation_factTuple.import_date</target-path>
       <transformation-function>datetime()</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>"Niguarda"</source-value>
-      <target-path>i2b2_capture.observation_fact_4_.observation_factTuple.location_cd</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_4_.observation_factTuple.location_cd</target-path>
       <transformation-function>"Niguarda"</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>"T"</source-value>
-      <target-path>i2b2_capture.observation_fact_4_.observation_factTuple.valtype_cd</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_4_.observation_factTuple.valtype_cd</target-path>
       <transformation-function>"T"</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -1129,7 +1130,7 @@
       <source-paths>
         <source-path>NIGUARDA.unpivoted_Episode_2_.unpivoted_EpisodeTuple.DATA_INIZIO</source-path>
       </source-paths>
-      <target-path>i2b2_capture.observation_fact_4_.observation_factTuple.start_date</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_4_.observation_factTuple.start_date</target-path>
       <transformation-function>todate(NIGUARDA.unpivoted_Episode_2_.unpivoted_EpisodeTuple.DATA_INIZIO, "dd/mm/yyyy")</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -1137,14 +1138,14 @@
       <source-paths>
         <source-path>NIGUARDA.unpivoted_Episode_2_.unpivoted_EpisodeTuple.DATA_FINE</source-path>
       </source-paths>
-      <target-path>i2b2_capture.observation_fact_4_.observation_factTuple.end_date</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_4_.observation_factTuple.end_date</target-path>
       <transformation-function>todate(NIGUARDA.unpivoted_Episode_2_.unpivoted_EpisodeTuple.DATA_FINE, "dd/mm/yyyy")</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>"Did patient has this treatment? 1 if true null otherwise"</source-value>
-      <target-path>i2b2_capture.concept_dimension_2_.concept_dimensionTuple.concept_blob</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.concept_dimension_2_.concept_dimensionTuple.concept_blob</target-path>
       <transformation-function>"Did patient has this treatment? 1 if true null otherwise"</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -1152,7 +1153,7 @@
       <source-paths>
         <source-path>NIGUARDA.unpivoted_Medical_report.unpivoted_Medical_reportTuple.CODICE_PRESTAZIONE_ICD9</source-path>
       </source-paths>
-      <target-path>i2b2_capture.concept_dimension_2_.concept_dimensionTuple.concept_path</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.concept_dimension_2_.concept_dimensionTuple.concept_path</target-path>
       <transformation-function>append(append("/niguarda/EHR/clinical/treatment/CODICE_PRESTAZIONE_ICD9/", NIGUARDA.unpivoted_Medical_report.unpivoted_Medical_reportTuple.CODICE_PRESTAZIONE_ICD9), "/")</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -1160,7 +1161,7 @@
       <source-paths>
         <source-path>NIGUARDA.niguarda_variables.niguarda_variablesTuple.type</source-path>
       </source-paths>
-      <target-path>i2b2_capture.observation_fact.observation_factTuple.valtype_cd</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.valtype_cd</target-path>
       <transformation-function>if((NIGUARDA.niguarda_variables.niguarda_variablesTuple.type == "numeric"), "N", "T")</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -1169,7 +1170,7 @@
         <source-path>NIGUARDA.niguarda_variables.niguarda_variablesTuple.type</source-path>
         <source-path>NIGUARDA.unpivoted_Episode.unpivoted_EpisodeTuple.Value</source-path>
       </source-paths>
-      <target-path>i2b2_capture.observation_fact.observation_factTuple.tval_char</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.tval_char</target-path>
       <transformation-function>if((NIGUARDA.niguarda_variables.niguarda_variablesTuple.type == "numeric"), "E", NIGUARDA.unpivoted_Episode.unpivoted_EpisodeTuple.Value)</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -1178,7 +1179,7 @@
         <source-path>NIGUARDA.niguarda_variables.niguarda_variablesTuple.type</source-path>
         <source-path>NIGUARDA.unpivoted_Episode.unpivoted_EpisodeTuple.Value</source-path>
       </source-paths>
-      <target-path>i2b2_capture.observation_fact.observation_factTuple.nval_num</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.nval_num</target-path>
       <transformation-function>if((NIGUARDA.niguarda_variables.niguarda_variablesTuple.type == "numeric"), NIGUARDA.unpivoted_Episode.unpivoted_EpisodeTuple.Value, null())</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -1187,7 +1188,7 @@
         <source-path>NIGUARDA.niguarda_variables_1_.niguarda_variablesTuple.type</source-path>
         <source-path>NIGUARDA.unpivoted_Medical_report.unpivoted_Medical_reportTuple.Value</source-path>
       </source-paths>
-      <target-path>i2b2_capture.observation_fact_1_.observation_factTuple.tval_char</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.tval_char</target-path>
       <transformation-function>if((NIGUARDA.niguarda_variables_1_.niguarda_variablesTuple.type == "numeric"), "E", NIGUARDA.unpivoted_Medical_report.unpivoted_Medical_reportTuple.Value)</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -1196,7 +1197,7 @@
         <source-path>NIGUARDA.niguarda_variables_1_.niguarda_variablesTuple.type</source-path>
         <source-path>NIGUARDA.unpivoted_Medical_report.unpivoted_Medical_reportTuple.Value</source-path>
       </source-paths>
-      <target-path>i2b2_capture.observation_fact_1_.observation_factTuple.nval_num</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.nval_num</target-path>
       <transformation-function>if((NIGUARDA.niguarda_variables_1_.niguarda_variablesTuple.type == "numeric"), NIGUARDA.unpivoted_Medical_report.unpivoted_Medical_reportTuple.Value, null())</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -1205,7 +1206,7 @@
         <source-path>NIGUARDA.unpivoted_Imaging_1_.unpivoted_ImagingTuple.Value</source-path>
         <source-path>NIGUARDA.unpivoted_Imaging_1_.unpivoted_ImagingTuple.attribute</source-path>
       </source-paths>
-      <target-path>i2b2_capture.observation_fact_3_.observation_factTuple.tval_char</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_3_.observation_factTuple.tval_char</target-path>
       <transformation-function>if((NIGUARDA.unpivoted_Imaging_1_.unpivoted_ImagingTuple.attribute == "RICHIEDENTE"), if((NIGUARDA.unpivoted_Imaging_1_.unpivoted_ImagingTuple.Value == "3760 Neurologia Degenza"), NIGUARDA.unpivoted_Imaging_1_.unpivoted_ImagingTuple.Value, null()), NIGUARDA.unpivoted_Imaging_1_.unpivoted_ImagingTuple.Value)</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -1213,7 +1214,7 @@
       <source-paths>
         <source-path>NIGUARDA.unpivoted_Episode_2_.unpivoted_EpisodeTuple.DATA_FINE</source-path>
       </source-paths>
-      <target-path>i2b2_capture.observation_fact_3_.observation_factTuple.end_date</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_3_.observation_factTuple.end_date</target-path>
       <transformation-function>todate(NIGUARDA.unpivoted_Episode_2_.unpivoted_EpisodeTuple.DATA_FINE, "dd/mm/yyyy")</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -1221,7 +1222,7 @@
       <source-paths>
         <source-path>NIGUARDA.unpivoted_Episode_2_.unpivoted_EpisodeTuple.DATA_INIZIO</source-path>
       </source-paths>
-      <target-path>i2b2_capture.observation_fact_3_.observation_factTuple.start_date</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_3_.observation_factTuple.start_date</target-path>
       <transformation-function>todate(NIGUARDA.unpivoted_Episode_2_.unpivoted_EpisodeTuple.DATA_INIZIO, "dd/mm/yyyy")</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -1229,7 +1230,7 @@
       <source-paths>
         <source-path>NIGUARDA.unpivoted_Imaging_1_.unpivoted_ImagingTuple.CODICE_PRESTAZIONE_ICD9</source-path>
       </source-paths>
-      <target-path>i2b2_capture.observation_fact_4_.observation_factTuple.tval_char</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact_4_.observation_factTuple.tval_char</target-path>
       <transformation-function>if((NIGUARDA.unpivoted_Imaging_1_.unpivoted_ImagingTuple.CODICE_PRESTAZIONE_ICD9 == "89.31.01"), "88.91.1", if((NIGUARDA.unpivoted_Imaging_1_.unpivoted_ImagingTuple.CODICE_PRESTAZIONE_ICD9 == "89.31.02"), "88.91.2", NIGUARDA.unpivoted_Imaging_1_.unpivoted_ImagingTuple.CODICE_PRESTAZIONE_ICD9))</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -1237,7 +1238,7 @@
       <source-paths>
         <source-path>NIGUARDA.unpivoted_Episode.unpivoted_EpisodeTuple.DATA_INIZIO</source-path>
       </source-paths>
-      <target-path>i2b2_capture.observation_fact.observation_factTuple.start_date</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.start_date</target-path>
       <transformation-function>todate(NIGUARDA.unpivoted_Episode.unpivoted_EpisodeTuple.DATA_INIZIO, "dd/mm/yyyy")</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -1245,7 +1246,7 @@
       <source-paths>
         <source-path>NIGUARDA.Demographics.DemographicsTuple.DATA_NASCITA</source-path>
       </source-paths>
-      <target-path>i2b2_capture.patient_dimension.patient_dimensionTuple.age_in_years_num</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.patient_dimension.patient_dimensionTuple.age_in_years_num</target-path>
       <transformation-function>round((toint((date() - todate(NIGUARDA.Demographics.DemographicsTuple.DATA_NASCITA, "dd/mm/yyyy"))) / 365))</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -1254,7 +1255,7 @@
         <source-path>NIGUARDA.unpivoted_Episode.unpivoted_EpisodeTuple.DATA_INIZIO</source-path>
         <source-path>NIGUARDA.Demographics.DemographicsTuple.DATA_NASCITA</source-path>
       </source-paths>
-      <target-path>i2b2_capture.visit_dimension.visit_dimensionTuple.patient_age</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.visit_dimension.visit_dimensionTuple.patient_age</target-path>
       <transformation-function>(((((((toint(substring(tostring(todate(NIGUARDA.unpivoted_Episode.unpivoted_EpisodeTuple.DATA_INIZIO, "DD/MM/YYYY")), 0, 4)) * 365) + (toint(substring(tostring(todate(NIGUARDA.unpivoted_Episode.unpivoted_EpisodeTuple.DATA_INIZIO, "DD/MM/YYYY")), 5, 7)) * 12)) + toint(substring(tostring(todate(NIGUARDA.unpivoted_Episode.unpivoted_EpisodeTuple.DATA_INIZIO, "DD/MM/YYYY")), 8, 10))) - (toint(substring(tostring(todate(NIGUARDA.Demographics.DemographicsTuple.DATA_NASCITA, "DD/MM/YYYY")), 0, 4)) * 365)) + (toint(substring(tostring(todate(NIGUARDA.Demographics.DemographicsTuple.DATA_NASCITA, "DD/MM/YYYY")), 5, 7)) * 12)) + toint(substring(tostring(todate(NIGUARDA.Demographics.DemographicsTuple.DATA_NASCITA, "DD/MM/YYYY")), 8, 10))) / 365)</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -1262,7 +1263,7 @@
       <source-paths>
         <source-path>NIGUARDA.cde_variables.cde_variablesTuple.cde_label</source-path>
       </source-paths>
-      <target-path>i2b2_capture.concept_dimension_5_.concept_dimensionTuple.name_char</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.concept_dimension_5_.concept_dimensionTuple.name_char</target-path>
       <transformation-function>NIGUARDA.cde_variables.cde_variablesTuple.cde_label</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -1270,7 +1271,7 @@
       <source-paths>
         <source-path>NIGUARDA.cde_variables.cde_variablesTuple.cde_concept_path</source-path>
       </source-paths>
-      <target-path>i2b2_capture.concept_dimension_5_.concept_dimensionTuple.concept_path</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.concept_dimension_5_.concept_dimensionTuple.concept_path</target-path>
       <transformation-function>NIGUARDA.cde_variables.cde_variablesTuple.cde_concept_path</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -1278,7 +1279,7 @@
       <source-paths>
         <source-path>NIGUARDA.cde_variables.cde_variablesTuple.cde_code</source-path>
       </source-paths>
-      <target-path>i2b2_capture.concept_dimension_5_.concept_dimensionTuple.concept_cd</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.concept_dimension_5_.concept_dimensionTuple.concept_cd</target-path>
       <transformation-function>NIGUARDA.cde_variables.cde_variablesTuple.cde_code</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -1286,14 +1287,14 @@
       <source-paths>
         <source-path>NIGUARDA.cde_variables.cde_variablesTuple.descritption</source-path>
       </source-paths>
-      <target-path>i2b2_capture.concept_dimension_5_.concept_dimensionTuple.concept_blob</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.concept_dimension_5_.concept_dimensionTuple.concept_blob</target-path>
       <transformation-function>NIGUARDA.cde_variables.cde_variablesTuple.descritption</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
     <correspondence>
       <source-paths />
       <source-value>datetime()</source-value>
-      <target-path>i2b2_capture.concept_dimension_5_.concept_dimensionTuple.import_date</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.concept_dimension_5_.concept_dimensionTuple.import_date</target-path>
       <transformation-function>datetime()</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
@@ -1304,16 +1305,16 @@
         <sequence>seq1</sequence>
         <relational>
           <driver>org.postgresql.Driver</driver>
-          <uri>jdbc:postgresql://localhost:31433/i2b2_capture</uri>
+          <uri>jdbc:postgresql://{{ .Env.i2b2_db_host }}:{{ default .Env.i2b2_db_port "5432" }}/{{ .Env.i2b2_db_name }}</uri>
           <schema>public</schema>
-          <login>i2b2_capture</login>
-          <password>1LFbnpvPPsAcruO</password>
+          <login>{{ default .Env.i2b2_db_user "postgres" }}</login>
+          <password>{{ default .Env.i2b2_db_password "postgres" }}</password>
           <table>observation_fact</table>
           <column>text_search_index</column>
           <function>max</function>
       </relational>
       </source-value>
-      <target-path>i2b2_capture.observation_fact.observation_factTuple.text_search_index</target-path>
+      <target-path>{{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.text_search_index</target-path>
       <transformation-function>newId()</transformation-function>
       <confidence>1.0</confidence>
     </correspondence>
