@@ -63,6 +63,7 @@ services:
 
   wait_dbs:
     image: "waisbrot/wait"
+    network_mode: "bridge"
     links:
       - "mipmap_db:mipmap_db"
       #- "i2b2_db:i2b2_db"
