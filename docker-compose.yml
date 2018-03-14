@@ -29,6 +29,7 @@ services:
 
   mipmap_db:
     image: "postgres:9.6.5"
+    network_mode: "bridge"
     container_name: "mipmap-postgres"
     restart: unless-stopped
     ports:
@@ -51,6 +52,7 @@ services:
 
   i2b2_db_harmonized:
     image: "postgres:9.6.5"
+    network_mode: "bridge"
     container_name: "i2b2-postgres-harmonized-niguarda"
     restart: unless-stopped
     ports:
