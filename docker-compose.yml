@@ -30,7 +30,7 @@ services:
   mipmap_db:
     image: "postgres:9.6.5"
     container_name: "mipmap-postgres"
-    network_mode: "bridge"
+#    network_mode: "bridge"
     restart: unless-stopped
     ports:
       - 5432
