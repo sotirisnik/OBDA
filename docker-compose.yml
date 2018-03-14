@@ -68,9 +68,9 @@ services:
       #- "i2b2_db:i2b2_db"
       - "i2b2_db_harmonized:i2b2_db_harmonized"
     external_links:
-      - "b9e74cba3dbd:i2b2_db"    
+      - "mesos-18aa6a87-2438-46a4-a650-8d17c8c5a3cc:i2b2_db"    
     environment:
-      - TARGETS=mipmap_db:5432,i2b2_db:31433,i2b2_db_harmonized:5432
+      - TARGETS=mipmap_db:5432,i2b2_db:5432,i2b2_db_harmonized:5432
 
 #  i2b2_setup:
 #    image: "hbpmip/i2b2-setup:1.5.2"
@@ -105,7 +105,7 @@ services:
       - mipmap_db_user=mipmap
       - mipmap_db_password=mipmap
       - i2b2_db_host=i2b2_db
-      - i2b2_db_port= 31433
+      - i2b2_db_port= 5432
       - i2b2_db_name=i2b2_capture
       - i2b2_db_user=i2b2_capture
       - i2b2_db_password=1LFbnpvPPsAcruO
@@ -119,4 +119,4 @@ services:
     #  - "i2b2_db:i2b2_db"
       - "i2b2_db_harmonized:i2b2_db_harmonized"
     external_links:
-      - "b9e74cba3dbd:i2b2_db" 
+      - "mesos-18aa6a87-2438-46a4-a650-8d17c8c5a3cc:i2b2_db" 
