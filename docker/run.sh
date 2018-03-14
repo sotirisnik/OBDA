@@ -3,7 +3,7 @@
 dockerize -template /opt/map.xml.tmpl:/opt/map.xml
 dockerize -template /opt/mapHarmonize.xml.tmpl:/opt/mapHarmonize.xml
 dockerize -template /opt/mipmap-db.properties.tmpl:/opt/mipmap-db.properties
-#dockerize -template /opt/i2b2-db.properties.tmpl:/opt/i2b2-db.properties
+dockerize -template /opt/i2b2-db.properties.tmpl:/opt/i2b2-db.properties
 dockerize -template /opt/i2b2-db-harmonized.properties.tmpl:/opt/i2b2-db-harmonized.properties
 
 
