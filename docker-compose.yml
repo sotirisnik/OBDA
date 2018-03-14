@@ -68,7 +68,7 @@ services:
       #- "i2b2_db:i2b2_db"
       - "i2b2_db_harmonized:i2b2_db_harmonized"
     external_links:
-      - "i2b2_db:b9e74cba3dbd"    
+      - "b9e74cba3dbd:i2b2_db"    
     environment:
       - TARGETS=mipmap_db:5432,i2b2_db:31433,i2b2_db_harmonized:5432
 
@@ -119,4 +119,4 @@ services:
     #  - "i2b2_db:i2b2_db"
       - "i2b2_db_harmonized:i2b2_db_harmonized"
     external_links:
-      - "i2b2_db:b9e74cba3dbd" 
+      - "b9e74cba3dbd:i2b2_db" 
