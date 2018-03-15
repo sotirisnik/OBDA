@@ -1,0 +1,1304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappingtask>
+  <config>
+    <rewriteSubsumptions>true</rewriteSubsumptions>
+    <rewriteCoverages>true</rewriteCoverages>
+    <rewriteSelfJoins>true</rewriteSelfJoins>
+    <rewriteEGDs>false</rewriteEGDs>
+    <sortStrategy>-1</sortStrategy>
+    <skolemTableStrategy>-1</skolemTableStrategy>
+    <useLocalSkolem>false</useLocalSkolem>
+  </config>
+  <source>
+    <type>Relational</type>
+    <!--<relational>
+      <driver>org.postgresql.Driver</driver>
+      <uri>jdbc:postgresql://localhost:5432/i2b2_before_harmonization_niguarda_iosif</uri>
+      <login>postgres</login>
+      <password>admin</password>
+    </relational>-->
+    <relational>
+      <driver>org.postgresql.Driver</driver>
+      <uri>jdbc:postgresql://{{ .Env.i2b2_db_host }}:{{ default .Env.i2b2_db_port "5432" }}/{{ .Env.i2b2_db_name }}</uri>
+      <login>{{ default .Env.i2b2_db_user "postgres" }}</login>
+      <password>{{ default .Env.i2b2_db_password "postgres" }}</password>
+    </relational>
+    <inclusions />
+    <exclusions />
+    <duplications>
+      <duplication>{{ .Env.i2b2_db_name }}.concept_dimension</duplication>
+      <duplication>{{ .Env.i2b2_db_name }}.observation_fact</duplication>
+      <duplication>{{ .Env.i2b2_db_name }}.concept_dimension</duplication>
+      <duplication>{{ .Env.i2b2_db_name }}.observation_fact</duplication>
+      <duplication>{{ .Env.i2b2_db_name }}.visit_dimension</duplication>
+      <duplication>{{ .Env.i2b2_db_name }}.patient_dimension</duplication>
+      <duplication>{{ .Env.i2b2_db_name }}.concept_dimension</duplication>
+    </duplications>
+    <functionalDependencies />
+    <selectionConditions>
+      <selectionCondition>
+        <setPath>{{ .Env.i2b2_db_name }}.observation_fact</setPath>
+        <condition>contains({{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.concept_cd, "cm3")</condition>
+      </selectionCondition>
+      <selectionCondition>
+        <setPath>{{ .Env.i2b2_db_name }}.concept_dimension_1_</setPath>
+        <condition>contains({{ .Env.i2b2_db_name }}.concept_dimension_1_.concept_dimensionTuple.concept_path, "/niguarda_anon/Imaging Data/Acquisition Settings/T1W_SE/")</condition>
+      </selectionCondition>
+      <selectionCondition>
+        <setPath>{{ .Env.i2b2_db_name }}.concept_dimension_2_</setPath>
+        <condition>contains({{ .Env.i2b2_db_name }}.concept_dimension_2_.concept_dimensionTuple.concept_path, "/niguarda/EHR")</condition>
+      </selectionCondition>
+      <selectionCondition>
+        <setPath>{{ .Env.i2b2_db_name }}.concept_dimension</setPath>
+        <condition>contains({{ .Env.i2b2_db_name }}.concept_dimension.concept_dimensionTuple.concept_cd, "vessel_volume(cm3)")</condition>
+      </selectionCondition>
+      <selectionCondition>
+        <setPath>{{ .Env.i2b2_db_name }}.concept_dimension_3_</setPath>
+        <condition>contains({{ .Env.i2b2_db_name }}.concept_dimension_3_.concept_dimensionTuple.concept_path, "/root")</condition>
+      </selectionCondition>
+    </selectionConditions>
+    <joinConditions>
+      <joinCondition>
+        <join>
+          <from>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.concept_cd</from>
+          <to>{{ .Env.i2b2_db_name }}.concept_dimension_1_.concept_dimensionTuple.concept_cd</to>
+        </join>
+        <foreignKey>false</foreignKey>
+        <mandatory>true</mandatory>
+        <matchString>false</matchString>
+      </joinCondition>
+      <joinCondition>
+        <join>
+          <from>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.concept_cd</from>
+          <to>{{ .Env.i2b2_db_name }}.concept_dimension_2_.concept_dimensionTuple.concept_cd</to>
+        </join>
+        <foreignKey>false</foreignKey>
+        <mandatory>true</mandatory>
+        <matchString>false</matchString>
+      </joinCondition>
+      <joinCondition>
+        <join>
+          <from>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.patient_num</from>
+          <to>{{ .Env.i2b2_db_name }}.patient_dimension_1_.patient_dimensionTuple.patient_num</to>
+        </join>
+        <foreignKey>false</foreignKey>
+        <mandatory>true</mandatory>
+        <matchString>false</matchString>
+      </joinCondition>
+    </joinConditions>
+  </source>
+  <target>
+    <type>Relational</type>
+    <!--<relational>
+      <driver>org.postgresql.Driver</driver>
+      <uri>jdbc:postgresql://localhost:5432/i2b2_after_harmonization_niguarda</uri>
+      <login>postgres</login>
+      <password>admin</password>
+    </relational> -->
+    <relational>
+      <driver>org.postgresql.Driver</driver>
+      <uri>jdbc:postgresql://{{ .Env.i2b2_db_harmonized_host }}:{{ default .Env.i2b2_db_harmonized_port "5432" }}/{{ .Env.i2b2_db_harmonized_name }}</uri>
+      <login>{{ default .Env.i2b2_db_harmonized_user "postgres" }}</login>
+      <password>{{ default .Env.i2b2_db_harmonized_password "postgres" }}</password>
+    </relational>
+    <inclusions />
+    <exclusions />
+    <duplications>
+      <duplication>{{ .Env.i2b2_db_harmonized_name }}.concept_dimension</duplication>
+      <duplication>{{ .Env.i2b2_db_harmonized_name }}.observation_fact</duplication>
+      <duplication>{{ .Env.i2b2_db_harmonized_name }}.concept_dimension</duplication>
+      <duplication>{{ .Env.i2b2_db_harmonized_name }}.observation_fact</duplication>
+      <duplication>{{ .Env.i2b2_db_harmonized_name }}.observation_fact</duplication>
+      <duplication>{{ .Env.i2b2_db_harmonized_name }}.observation_fact</duplication>
+      <duplication>{{ .Env.i2b2_db_harmonized_name }}.observation_fact</duplication>
+      <duplication>{{ .Env.i2b2_db_harmonized_name }}.observation_fact</duplication>
+      <duplication>{{ .Env.i2b2_db_harmonized_name }}.concept_dimension</duplication>
+    </duplications>
+    <functionalDependencies />
+    <selectionConditions />
+    <joinConditions />
+  </target>
+  <correspondences>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.encounter_mapping.encounter_mappingTuple.encounter_ide</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.encounter_mapping.encounter_mappingTuple.encounter_ide</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.encounter_mapping.encounter_mappingTuple.encounter_ide</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.encounter_mapping.encounter_mappingTuple.encounter_ide_source</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.encounter_mapping.encounter_mappingTuple.encounter_ide_source</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.encounter_mapping.encounter_mappingTuple.encounter_ide_source</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.encounter_mapping.encounter_mappingTuple.project_id</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.encounter_mapping.encounter_mappingTuple.project_id</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.encounter_mapping.encounter_mappingTuple.project_id</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.encounter_mapping.encounter_mappingTuple.encounter_num</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.encounter_mapping.encounter_mappingTuple.encounter_num</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.encounter_mapping.encounter_mappingTuple.encounter_num</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.encounter_mapping.encounter_mappingTuple.patient_ide</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.encounter_mapping.encounter_mappingTuple.patient_ide</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.encounter_mapping.encounter_mappingTuple.patient_ide</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.encounter_mapping.encounter_mappingTuple.patient_ide_source</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.encounter_mapping.encounter_mappingTuple.patient_ide_source</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.encounter_mapping.encounter_mappingTuple.patient_ide_source</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.encounter_mapping.encounter_mappingTuple.import_date</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.encounter_mapping.encounter_mappingTuple.download_date</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.encounter_mapping.encounter_mappingTuple.import_date</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.visit_dimension.visit_dimensionTuple.encounter_num</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.visit_dimension.visit_dimensionTuple.encounter_num</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.visit_dimension.visit_dimensionTuple.encounter_num</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.visit_dimension.visit_dimensionTuple.patient_num</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.visit_dimension.visit_dimensionTuple.patient_num</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.visit_dimension.visit_dimensionTuple.patient_num</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.visit_dimension.visit_dimensionTuple.start_date</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.visit_dimension.visit_dimensionTuple.start_date</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.visit_dimension.visit_dimensionTuple.start_date</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.visit_dimension.visit_dimensionTuple.end_date</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.visit_dimension.visit_dimensionTuple.end_date</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.visit_dimension.visit_dimensionTuple.end_date</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.visit_dimension.visit_dimensionTuple.location_cd</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.visit_dimension.visit_dimensionTuple.location_cd</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.visit_dimension.visit_dimensionTuple.location_cd</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.visit_dimension.visit_dimensionTuple.import_date</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.visit_dimension.visit_dimensionTuple.import_date</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.visit_dimension.visit_dimensionTuple.import_date</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.visit_dimension.visit_dimensionTuple.patient_age</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.visit_dimension.visit_dimensionTuple.patient_age</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.visit_dimension.visit_dimensionTuple.patient_age</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.provider_dimension.provider_dimensionTuple.provider_id</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.provider_dimension.provider_dimensionTuple.provider_id</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.provider_dimension.provider_dimensionTuple.provider_id</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.provider_dimension.provider_dimensionTuple.provider_path</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.provider_dimension.provider_dimensionTuple.provider_path</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.provider_dimension.provider_dimensionTuple.provider_path</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.provider_dimension.provider_dimensionTuple.name_char</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.provider_dimension.provider_dimensionTuple.name_char</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.provider_dimension.provider_dimensionTuple.name_char</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.provider_dimension.provider_dimensionTuple.import_date</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.provider_dimension.provider_dimensionTuple.import_date</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.provider_dimension.provider_dimensionTuple.import_date</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.patient_mapping.patient_mappingTuple.patient_ide</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.patient_mapping.patient_mappingTuple.patient_ide</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.patient_mapping.patient_mappingTuple.patient_ide</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.patient_mapping.patient_mappingTuple.patient_ide_source</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.patient_mapping.patient_mappingTuple.patient_ide_source</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.patient_mapping.patient_mappingTuple.patient_ide_source</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.patient_mapping.patient_mappingTuple.patient_num</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.patient_mapping.patient_mappingTuple.patient_num</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.patient_mapping.patient_mappingTuple.patient_num</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.patient_mapping.patient_mappingTuple.import_date</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.patient_mapping.patient_mappingTuple.import_date</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.patient_mapping.patient_mappingTuple.import_date</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.patient_dimension.patient_dimensionTuple.patient_num</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.patient_dimension.patient_dimensionTuple.patient_num</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.patient_dimension.patient_dimensionTuple.patient_num</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.patient_dimension.patient_dimensionTuple.birth_date</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.patient_dimension.patient_dimensionTuple.birth_date</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.patient_dimension.patient_dimensionTuple.birth_date</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.patient_dimension.patient_dimensionTuple.sex_cd</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.patient_dimension.patient_dimensionTuple.sex_cd</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.patient_dimension.patient_dimensionTuple.sex_cd</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.patient_dimension.patient_dimensionTuple.age_in_years_num</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.patient_dimension.patient_dimensionTuple.age_in_years_num</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.patient_dimension.patient_dimensionTuple.age_in_years_num</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.patient_dimension.patient_dimensionTuple.import_date</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.patient_dimension.patient_dimensionTuple.import_date</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.patient_dimension.patient_dimensionTuple.import_date</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.encounter_num</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_1_.observation_factTuple.encounter_num</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.encounter_num</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.patient_num</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_1_.observation_factTuple.patient_num</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.patient_num</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.concept_cd</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_1_.observation_factTuple.concept_cd</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.concept_cd</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.start_date</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_1_.observation_factTuple.start_date</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.start_date</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.modifier_cd</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_1_.observation_factTuple.modifier_cd</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.modifier_cd</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.instance_num</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_1_.observation_factTuple.instance_num</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.instance_num</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.valtype_cd</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_1_.observation_factTuple.valtype_cd</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.valtype_cd</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.tval_char</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_1_.observation_factTuple.tval_char</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.tval_char</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.nval_num</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_1_.observation_factTuple.nval_num</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.nval_num</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.end_date</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_1_.observation_factTuple.end_date</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.end_date</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.location_cd</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_1_.observation_factTuple.location_cd</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.location_cd</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.text_search_index</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_1_.observation_factTuple.text_search_index</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.text_search_index</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.provider_id</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_1_.observation_factTuple.provider_id</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.provider_id</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.units_cd</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_1_.observation_factTuple.units_cd</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.units_cd</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.import_date</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_1_.observation_factTuple.import_date</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact_1_.observation_factTuple.import_date</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.concept_dimension.concept_dimensionTuple.concept_path</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.concept_dimension.concept_dimensionTuple.concept_path</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.concept_dimension.concept_dimensionTuple.concept_path</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.concept_dimension.concept_dimensionTuple.concept_cd</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.concept_dimension.concept_dimensionTuple.concept_cd</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.concept_dimension.concept_dimensionTuple.concept_cd</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.concept_dimension.concept_dimensionTuple.name_char</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.concept_dimension.concept_dimensionTuple.name_char</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.concept_dimension.concept_dimensionTuple.name_char</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.concept_dimension.concept_dimensionTuple.concept_blob</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.concept_dimension.concept_dimensionTuple.concept_blob</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.concept_dimension.concept_dimensionTuple.concept_blob</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.concept_dimension.concept_dimensionTuple.import_date</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.concept_dimension.concept_dimensionTuple.import_date</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.concept_dimension.concept_dimensionTuple.import_date</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.encounter_num</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact.observation_factTuple.encounter_num</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.encounter_num</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.patient_num</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact.observation_factTuple.patient_num</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.patient_num</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.provider_id</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact.observation_factTuple.provider_id</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.provider_id</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.start_date</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact.observation_factTuple.start_date</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.start_date</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.modifier_cd</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact.observation_factTuple.modifier_cd</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.modifier_cd</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.instance_num</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact.observation_factTuple.instance_num</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.instance_num</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.tval_char</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact.observation_factTuple.valtype_cd</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.tval_char</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.nval_num</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact.observation_factTuple.tval_char</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.nval_num</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths />
+      <source-value>"cm3"</source-value>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact.observation_factTuple.units_cd</target-path>
+      <transformation-function>"cm3"</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.import_date</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact.observation_factTuple.import_date</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.import_date</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.text_search_index</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact.observation_factTuple.text_search_index</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.text_search_index</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.concept_dimension_1_.concept_dimensionTuple.concept_path</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.concept_dimension_1_.concept_dimensionTuple.concept_path</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.concept_dimension_1_.concept_dimensionTuple.concept_path</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.concept_dimension_1_.concept_dimensionTuple.concept_cd</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.concept_dimension_1_.concept_dimensionTuple.concept_cd</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.concept_dimension_1_.concept_dimensionTuple.concept_cd</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.concept_dimension_1_.concept_dimensionTuple.name_char</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.concept_dimension_1_.concept_dimensionTuple.name_char</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.concept_dimension_1_.concept_dimensionTuple.name_char</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.concept_dimension_1_.concept_dimensionTuple.concept_blob</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.concept_dimension_1_.concept_dimensionTuple.concept_blob</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.concept_dimension_1_.concept_dimensionTuple.concept_blob</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.concept_dimension_1_.concept_dimensionTuple.import_date</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.concept_dimension_1_.concept_dimensionTuple.import_date</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.concept_dimension_1_.concept_dimensionTuple.import_date</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.concept_cd</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact.observation_factTuple.concept_cd</target-path>
+      <transformation-function>if(({{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.concept_cd == "niguarda_anon:right_vessel_volume(cm3)"), {{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.concept_cd, if(({{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.concept_cd == "niguarda_anon:left_vessel_volume(cm3)"), {{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.concept_cd, if(({{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.concept_cd == "niguarda_anon:3rd_ventricle_volume(cm3)"), "_3rdventricle", if(({{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.concept_cd == "niguarda_anon:4th_ventricle_volume(cm3)"), "_4thventricle", if(({{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.concept_cd == "niguarda_anon:intracraneal_volume(cm3)"), "tiv", if(({{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.concept_cd == "niguarda_anon:csf_volume(cm3)"), "csfglobal", if(contains({{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.concept_cd, "vessel_volume(cm3)"), {{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.concept_cd, tolower(replace(replace(replace({{ .Env.i2b2_db_name }}.observation_fact.observation_factTuple.concept_cd, "niguarda_anon:", ""), "volume(cm3)", ""), "_", "")))))))))</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.patient_mapping.patient_mappingTuple.project_id</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.patient_mapping.patient_mappingTuple.project_id</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.patient_mapping.patient_mappingTuple.project_id</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.concept_dimension_2_.concept_dimensionTuple.concept_path</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.concept_dimension_2_.concept_dimensionTuple.concept_path</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.concept_dimension_2_.concept_dimensionTuple.concept_path</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.concept_dimension_2_.concept_dimensionTuple.name_char</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.concept_dimension_2_.concept_dimensionTuple.name_char</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.concept_dimension_2_.concept_dimensionTuple.name_char</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.concept_dimension_2_.concept_dimensionTuple.concept_blob</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.concept_dimension_2_.concept_dimensionTuple.concept_blob</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.concept_dimension_2_.concept_dimensionTuple.concept_blob</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.concept_dimension_2_.concept_dimensionTuple.import_date</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.concept_dimension_2_.concept_dimensionTuple.import_date</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.concept_dimension_2_.concept_dimensionTuple.import_date</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.encounter_num</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_2_.observation_factTuple.encounter_num</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.encounter_num</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.patient_num</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_2_.observation_factTuple.patient_num</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.patient_num</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.provider_id</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_2_.observation_factTuple.provider_id</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.provider_id</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.start_date</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_2_.observation_factTuple.start_date</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.start_date</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.modifier_cd</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_2_.observation_factTuple.modifier_cd</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.modifier_cd</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.instance_num</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_2_.observation_factTuple.instance_num</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.instance_num</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.valtype_cd</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_2_.observation_factTuple.valtype_cd</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.valtype_cd</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.tval_char</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_2_.observation_factTuple.tval_char</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.tval_char</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.nval_num</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_2_.observation_factTuple.nval_num</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.nval_num</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.units_cd</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_2_.observation_factTuple.units_cd</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.units_cd</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.end_date</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_2_.observation_factTuple.end_date</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.end_date</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.location_cd</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_2_.observation_factTuple.location_cd</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.location_cd</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.import_date</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_2_.observation_factTuple.import_date</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.import_date</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.text_search_index</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_2_.observation_factTuple.text_search_index</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.text_search_index</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.concept_dimension_2_.concept_dimensionTuple.concept_cd</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.concept_dimension_2_.concept_dimensionTuple.concept_cd</target-path>
+      <transformation-function>append("niguarda:", {{ .Env.i2b2_db_name }}.concept_dimension_2_.concept_dimensionTuple.concept_cd)</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.encounter_num</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_4_.observation_factTuple.encounter_num</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.encounter_num</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.encounter_num</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_3_.observation_factTuple.encounter_num</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.encounter_num</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.patient_num</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_3_.observation_factTuple.patient_num</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.patient_num</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.patient_num</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_4_.observation_factTuple.patient_num</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.patient_num</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths />
+      <source-value>"Niguarda"</source-value>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_4_.observation_factTuple.provider_id</target-path>
+      <transformation-function>"Niguarda"</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.start_date</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_3_.observation_factTuple.start_date</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.start_date</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.start_date</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_4_.observation_factTuple.start_date</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.start_date</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths />
+      <source-value>"@"</source-value>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_4_.observation_factTuple.modifier_cd</target-path>
+      <transformation-function>"@"</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths />
+      <source-value>1</source-value>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_4_.observation_factTuple.instance_num</target-path>
+      <transformation-function>1</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths />
+      <source-value>1</source-value>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_3_.observation_factTuple.instance_num</target-path>
+      <transformation-function>1</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths />
+      <source-value>"N"</source-value>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_3_.observation_factTuple.valtype_cd</target-path>
+      <transformation-function>"N"</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths />
+      <source-value>"N"</source-value>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_4_.observation_factTuple.valtype_cd</target-path>
+      <transformation-function>"N"</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths />
+      <source-value>"E"</source-value>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_4_.observation_factTuple.tval_char</target-path>
+      <transformation-function>"E"</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.patient_age</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_4_.observation_factTuple.nval_num</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.patient_age</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths />
+      <source-value>"subjectage"</source-value>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_4_.observation_factTuple.concept_cd</target-path>
+      <transformation-function>"subjectage"</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths />
+      <source-value>"subjectageyears"</source-value>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_3_.observation_factTuple.concept_cd</target-path>
+      <transformation-function>"subjectageyears"</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths />
+      <source-value>"Niguarda"</source-value>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_3_.observation_factTuple.provider_id</target-path>
+      <transformation-function>"Niguarda"</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths />
+      <source-value>"@"</source-value>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_3_.observation_factTuple.modifier_cd</target-path>
+      <transformation-function>"@"</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.patient_age</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_3_.observation_factTuple.nval_num</target-path>
+      <transformation-function>floor({{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.patient_age)</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths />
+      <source-value>"E"</source-value>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_3_.observation_factTuple.tval_char</target-path>
+      <transformation-function>"E"</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths />
+      <source-value>"years"</source-value>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_3_.observation_factTuple.units_cd</target-path>
+      <transformation-function>"years"</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.end_date</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_3_.observation_factTuple.end_date</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.end_date</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.end_date</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_4_.observation_factTuple.end_date</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.end_date</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.import_date</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_4_.observation_factTuple.import_date</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.import_date</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.import_date</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_3_.observation_factTuple.import_date</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.import_date</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths />
+      <source-value>
+        newId(getId())_seq1
+        <sequence>seq1</sequence>
+        <relational>
+          <driver>org.postgresql.Driver</driver>
+          <uri>jdbc:postgresql://{{ .Env.i2b2_db_harmonized_host }}:{{ default .Env.i2b2_db_harmonized_port "5432" }}/{{ .Env.i2b2_db_harmonized_name }}</uri>
+          <schema>public</schema>
+          <login>{{ default .Env.i2b2_db_harmonized_user "postgres" }}</login>
+          <password>{{ default .Env.i2b2_db_harmonized_password "postgres" }}</password>
+          <table>observation_fact</table>
+          <column>text_search_index</column>
+          <function>max</function>
+        </relational>
+      </source-value>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_4_.observation_factTuple.text_search_index</target-path>
+      <transformation-function>newId()</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths />
+      <source-value>
+        newId(getId())_seq1
+        <sequence>seq1</sequence>
+        <relational>
+          <driver>org.postgresql.Driver</driver>
+          <uri>jdbc:postgresql://{{ .Env.i2b2_db_harmonized_host }}:{{ default .Env.i2b2_db_harmonized_port "5432" }}/{{ .Env.i2b2_db_harmonized_name }}</uri>
+          <schema>public</schema>
+          <login>{{ default .Env.i2b2_db_harmonized_user "postgres" }}</login>
+          <password>{{ default .Env.i2b2_db_harmonized_password "postgres" }}</password>
+          <table>observation_fact</table>
+          <column>text_search_index</column>
+          <function>max</function>
+        </relational>
+      </source-value>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_3_.observation_factTuple.text_search_index</target-path>
+      <transformation-function>newId()</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths />
+      <source-value>
+        newId(getId())_seq1
+        <sequence>seq1</sequence>
+        <relational>
+          <driver>org.postgresql.Driver</driver>
+          <uri>jdbc:postgresql://{{ .Env.i2b2_db_harmonized_host }}:{{ default .Env.i2b2_db_harmonized_port "5432" }}/{{ .Env.i2b2_db_harmonized_name }}</uri>
+          <schema>public</schema>
+          <login>{{ default .Env.i2b2_db_harmonized_user "postgres" }}</login>
+          <password>{{ default .Env.i2b2_db_harmonized_password "postgres" }}</password>
+          <table>observation_fact</table>
+          <column>text_search_index</column>
+          <function>max</function>
+        </relational>
+      </source-value>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_5_.observation_factTuple.text_search_index</target-path>
+      <transformation-function>newId()</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.import_date</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_5_.observation_factTuple.import_date</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.import_date</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths />
+      <source-value>"Niguarda"</source-value>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_4_.observation_factTuple.location_cd</target-path>
+      <transformation-function>"Niguarda"</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths />
+      <source-value>"Niguarda"</source-value>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_3_.observation_factTuple.location_cd</target-path>
+      <transformation-function>"Niguarda"</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.encounter_num</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_5_.observation_factTuple.encounter_num</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.encounter_num</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.patient_num</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_5_.observation_factTuple.patient_num</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.patient_num</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.start_date</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_5_.observation_factTuple.start_date</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.start_date</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths />
+      <source-value>"Niguarda"</source-value>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_5_.observation_factTuple.provider_id</target-path>
+      <transformation-function>"Niguarda"</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths />
+      <source-value>1</source-value>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_5_.observation_factTuple.instance_num</target-path>
+      <transformation-function>1</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths />
+      <source-value>"@"</source-value>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_5_.observation_factTuple.modifier_cd</target-path>
+      <transformation-function>"@"</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths />
+      <source-value>"T"</source-value>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_5_.observation_factTuple.valtype_cd</target-path>
+      <transformation-function>"T"</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.end_date</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_5_.observation_factTuple.end_date</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.end_date</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths />
+      <source-value>"Niguarda"</source-value>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_5_.observation_factTuple.location_cd</target-path>
+      <transformation-function>"Niguarda"</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths />
+      <source-value>"agegroup"</source-value>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_5_.observation_factTuple.concept_cd</target-path>
+      <transformation-function>"agegroup"</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths />
+      <source-value>
+        newId(getId())_seq1
+        <sequence>seq1</sequence>
+        <relational>
+          <driver>org.postgresql.Driver</driver>
+          <uri>jdbc:postgresql://{{ .Env.i2b2_db_harmonized_host }}:{{ default .Env.i2b2_db_harmonized_port "5432" }}/{{ .Env.i2b2_db_harmonized_name }}</uri>
+          <schema>public</schema>
+          <login>{{ default .Env.i2b2_db_harmonized_user "postgres" }}</login>
+          <password>{{ default .Env.i2b2_db_harmonized_password "postgres" }}</password>
+          <table>observation_fact</table>
+          <column>text_search_index</column>
+          <function>max</function>
+        </relational>
+      </source-value>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_6_.observation_factTuple.text_search_index</target-path>
+      <transformation-function>newId()</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.patient_dimension_1_.patient_dimensionTuple.import_date</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_6_.observation_factTuple.import_date</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.patient_dimension_1_.patient_dimensionTuple.import_date</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.encounter_num</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_6_.observation_factTuple.encounter_num</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.encounter_num</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.patient_num</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_6_.observation_factTuple.patient_num</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.patient_num</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.start_date</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_6_.observation_factTuple.start_date</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.start_date</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths />
+      <source-value>"Niguarda"</source-value>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_6_.observation_factTuple.provider_id</target-path>
+      <transformation-function>"Niguarda"</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths />
+      <source-value>"@"</source-value>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_6_.observation_factTuple.modifier_cd</target-path>
+      <transformation-function>"@"</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths />
+      <source-value>1</source-value>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_6_.observation_factTuple.instance_num</target-path>
+      <transformation-function>1</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths />
+      <source-value>"T"</source-value>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_6_.observation_factTuple.valtype_cd</target-path>
+      <transformation-function>"T"</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.patient_dimension_1_.patient_dimensionTuple.sex_cd</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_6_.observation_factTuple.tval_char</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.patient_dimension_1_.patient_dimensionTuple.sex_cd</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.end_date</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_6_.observation_factTuple.end_date</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.end_date</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths />
+      <source-value>"Niguarda"</source-value>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_6_.observation_factTuple.location_cd</target-path>
+      <transformation-function>"Niguarda"</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths />
+      <source-value>"gender"</source-value>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_6_.observation_factTuple.concept_cd</target-path>
+      <transformation-function>"gender"</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.concept_dimension_3_.concept_dimensionTuple.concept_path</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.concept_dimension_3_.concept_dimensionTuple.concept_path</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.concept_dimension_3_.concept_dimensionTuple.concept_path</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.concept_dimension_3_.concept_dimensionTuple.concept_cd</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.concept_dimension_3_.concept_dimensionTuple.concept_cd</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.concept_dimension_3_.concept_dimensionTuple.concept_cd</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.concept_dimension_3_.concept_dimensionTuple.name_char</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.concept_dimension_3_.concept_dimensionTuple.name_char</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.concept_dimension_3_.concept_dimensionTuple.name_char</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.concept_dimension_3_.concept_dimensionTuple.concept_blob</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.concept_dimension_3_.concept_dimensionTuple.concept_blob</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.concept_dimension_3_.concept_dimensionTuple.concept_blob</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.concept_dimension_3_.concept_dimensionTuple.import_date</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.concept_dimension_3_.concept_dimensionTuple.import_date</target-path>
+      <transformation-function>{{ .Env.i2b2_db_name }}.concept_dimension_3_.concept_dimensionTuple.import_date</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.concept_cd</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_2_.observation_factTuple.concept_cd</target-path>
+      <transformation-function>if(({{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.concept_cd == "HANDEDNESS"), "handedness", if(({{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.concept_cd == "MMSE_SCORE"), "minimentalstate", append("niguarda:", {{ .Env.i2b2_db_name }}.observation_fact_2_.observation_factTuple.concept_cd)))</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+    <correspondence>
+      <source-paths>
+        <source-path>{{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.patient_age</source-path>
+      </source-paths>
+      <target-path>{{ .Env.i2b2_db_harmonized_name }}.observation_fact_5_.observation_factTuple.tval_char</target-path>
+      <transformation-function>if(({{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.patient_age &gt;= 80), "+80y", if(({{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.patient_age &gt;= 70), "70-79y", if(({{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.patient_age &gt;= 60), "60-69y", if(({{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.patient_age &gt;= 50), "50-59y", if(({{ .Env.i2b2_db_name }}.visit_dimension_1_.visit_dimensionTuple.patient_age &lt; 50), "-50y", null())))))</transformation-function>
+      <confidence>1.0</confidence>
+    </correspondence>
+  </correspondences>
+</mappingtask>
+
