@@ -43,7 +43,7 @@
 	<classpathentry kind="lib" path="lib/openrdf-util.jar"/>
 	<classpathentry kind="lib" path="lib/owlapi-distribution-3.4.8.jar"/>
 	<classpathentry kind="lib" path="lib/owlim-2.9.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="/home/sotiris/Desktop/OBDA/IQAROS/lib/openrdf-model.jar"/>
-	<classpathentry exported="true" kind="lib" path="/home/sotiris/Desktop/OBDA/IQAROS/lib/javax.servlet-2.5.0.v201103041518.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/openrdf-model.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/javax.servlet-2.5.0.v201103041518.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

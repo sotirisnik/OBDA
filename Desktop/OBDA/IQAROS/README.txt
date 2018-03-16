@@ -16,7 +16,7 @@ Image, Video and Multimedia Laboratory, NTUA
    See the License for the specific language governing permissions and
    limitations under the License.
 
-Given an ontology schema (i.e. TBox) and conjunctive query, IQAROS generates a union of conjucntive queries such that the answers of the union of conjunctive queries over some input data and discarding the ontology schema are precisely the answers of the original query over the same input data and ontology schema.
+Given an ontology schema (i.e. TBox) and conjunctive query, IQAROS generates a union of conjunctive queries such that the answers of the union of conjunctive queries over some input data and discarding the ontology schema are precisely the answers of the original query over the same input data and ontology schema.
 
 The theory behind IQAROS is presented in the paper
 
