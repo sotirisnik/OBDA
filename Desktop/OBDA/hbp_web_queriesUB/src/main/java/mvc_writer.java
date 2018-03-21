@@ -49,7 +49,7 @@ public class mvc_writer {
         
         out.println( "<h2 style='margin-top:20px;'>MIP Query with Ontology Based Data Access</h2>" );
     
-        out.println( "<div style='margin-top:20px; padding: 20px; border: 1px solid black;'>");
+        out.println( "<div style='border-radius: 15px; margin-top:20px; padding: 20px; border: 1px solid black;'>");
          
         clear( out );
          
