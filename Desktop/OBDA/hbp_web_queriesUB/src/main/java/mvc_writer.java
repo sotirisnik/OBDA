@@ -46,6 +46,10 @@ public class mvc_writer {
                     + "</head>"
                 + "<body>"
                 + "<div id='container'>" );
+        
+        out.println( "<h2 style='margin-top:20px;'>MIP Query with Ontology Based Data Access</h2>" );
+    
+        out.println( "<div style='margin-top:20px; padding: 20px; border: 1px solid black;'>");
          
         clear( out );
          
@@ -53,6 +57,7 @@ public class mvc_writer {
      
     public static void footer( PrintWriter out ) {
          
+        out.println( "</div>" );
         out.println(    "</div>"
                     + "</body>"
                 + "</html>");
@@ -60,9 +65,7 @@ public class mvc_writer {
     }
     
     public static void print_query_form( PrintWriter out, String query, boolean uploadFile ) {
-        
-              out.println( "<h2>MIP Query with Ontology Based Data Access</h2>" );
-
+              
               out.println(
 "        <form action='HelloServlet' id=\"queryForm\" method=\"post\"  enctype='multipart/form-data'> " );
 
