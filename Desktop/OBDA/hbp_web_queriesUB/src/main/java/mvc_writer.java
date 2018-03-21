@@ -37,13 +37,15 @@ public class mvc_writer {
          
         out.println("<!DOCTYPE html>"
                 + "<html>"
-                + "<head>"
-                + "<title>HBP-MIP query</title>"
-                + "<meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
-                + "<!--<meta content=\"text/html; charset=UTF-8\">-->\n"
-                + "<meta content=\"width=device-width, initial-scale=1.0\">\n"+ "</head>"
+                    + "<head>"
+                        + "<title>HBP-MIP query</title>"
+                        + "<meta http-equiv='Content-Type' content='text/html; charset=utf-8' />"
+                        + "<!--<meta content=\"text/html; charset=UTF-8\">-->\n"
+                        + "<meta content=\"width=device-width, initial-scale=1.0\">\n"
+                        + "<link rel=\"stylesheet\" type=\"text/css\" href=\"obda.css\" >"
+                    + "</head>"
                 + "<body>"
-                + "<div id='container'>" );
+                + "<div class='id='container'>" );
          
         clear( out );
          
@@ -131,7 +133,7 @@ public class mvc_writer {
               out.println( "<hr>");
               
       out.println( "<div>" );
-          out.println( "<input type='submit' value='Submit query'>");
+          out.println( "<input type='submit' class='greenbtn' value='Submit query'>");
       out.println( "</div>" );
       
       out.println( "</form>" );

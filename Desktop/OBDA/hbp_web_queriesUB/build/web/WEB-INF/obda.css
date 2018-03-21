@@ -1,0 +1,175 @@
+body {
+	font: 0.7em Tahoma, Arial, sans-serif;
+}
+
+#container {
+	margin: 0 auto;
+	width: 960px;
+	border: 1px solid black;
+}
+
+#header {
+	width: 100%;
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+#header li {
+	float: left;
+}
+
+#header h2 {
+	font-size: 2.5em;
+}
+
+#left {
+	float: left;
+	width: 650px;
+}
+
+#right {
+	float: right;
+	width: 295px;
+}
+
+.roundbox {
+	margin-bottom: 25px;
+}
+
+.box {
+	border: 2px solid #2c71b8;
+	border-radius: 5px 5px 5px 5px;
+	background-color: #eeeac7;
+	margin-bottom: 10px;
+}
+
+.box form {
+	padding: 0px;
+	margin-left: 55px;
+}
+
+.box ul {
+	list-style-type: none;
+}
+
+.box ul li {
+	margin-bottom: 5px;
+	font: 1em Tahoma, Arial, sans-serif;
+}
+
+#footer {
+	border-top: 1px solid #ccc;
+	clear: both;
+	line-height: 1.8em;
+}
+
+.clear {
+	clear: both;
+}
+
+#gboxwarning {
+	background-color: #FF0526;
+	height: 30px;
+	padding-top: 15px;
+	padding-left: 35px;
+	font: 1em Tahoma, Arial, sans-serif;
+	font-weight: bold;
+	background-image: url( "img/cross.gif" );
+	background-repeat: no-repeat;
+	background-position: 8px 10px;
+	margin-bottom: 10px;
+
+}
+
+p {
+	text-align: justify;
+	font: 1.2em Tahoma,Arial,sans-serif;
+}
+
+h2 {
+	font: bold 1.5em Arial, Sans-Serif;
+	color: #454545;
+	margin: 0px;
+	padding: 0px;
+}
+
+.report {
+	border-collapse: collapse;
+	border-width: medium 1px 1px;
+	color: #000;
+	font-size: 18px;
+	margin-right: 2px;
+	padding: 4px 4px 4px 25px;
+}
+
+.report td {
+	margin: 0px;
+	padding: 4px 4px 4px 25px;
+	vertical-align: top;
+	font: 1em Tahoma,Arial,sans-serif;
+}
+
+.reptd {
+	display: table-cell;
+	margin: 0px;
+	padding: 5px;
+	vertical-align: top;
+	font: 1em Tahoma,Arial,sans-serif;
+	border: 1px solid black;
+}
+
+.reptest {
+    color: #000000;
+    font-size: 14px;
+}
+
+.cor {
+	background-image: url('tick.png' );
+	background-size: 17px 17px;
+	background-repeat: no-repeat;
+}
+
+.successmsg {
+	color: #4f872d;
+}
+
+
+.errormsg {
+	color: #a42721;
+}
+
+.warningrmsg {
+	color: #cf8848;
+}
+
+a {
+	color: #2c71bb;
+	text-decoration: none;
+}
+
+table {
+	font: 1em Tahoma, Arial, sans-serif;
+}
+
+ul {
+	margin: 0;
+	padding: 0 15px;
+}
+
+.box p {
+	margin: 0px;
+	padding: 0px;
+}
+
+.buttons {
+	padding: 4px 3px 0 0;
+}
+
+b {
+	color: #454545;
+}
+
+#loginform input {
+	width: 120px;
+}
