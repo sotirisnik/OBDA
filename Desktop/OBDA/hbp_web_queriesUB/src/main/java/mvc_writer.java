@@ -45,7 +45,7 @@ public class mvc_writer {
                         + "<link rel=\"stylesheet\" type=\"text/css\" href=\"obda.css\" >"
                     + "</head>"
                 + "<body>"
-                + "<div class='id='container'>" );
+                + "<div id='container'>" );
          
         clear( out );
          
